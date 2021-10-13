@@ -1,6 +1,20 @@
 <?php
 ini_set('display_errors', 'Off');
 
+$_SESSION['api_citas_url'] ='http://localhost:8023/apicitas/';
+
+$_SESSION['nit']='901111348';
+
+$_SESSION['usuario_mutual']='sios-hdsalud';
+
+$_SESSION['contraseña_mutual']='Hju8Ghj7Yhn0';
+
+$_SESSION['autorization_api_sios'] ='Y2FtaW5vc2lwczpCaHU4TmppOU1rbzA=';
+
+$_SESSION['rights_api_url'] ='https://mutual-verificador-dot-gcp-mutualser-webservices-prod.appspot.com/validateRights/';
+
+$_SESSION['token_rights_api_url'] ='https://gcp-mutualser-keycloak-prod.appspot.com/auth/realms/right-validation/protocol/openid-connect/token';
+
 foreach($_POST as $nombre_campo => $valor){
      $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
     eval($asignacion);
@@ -423,96 +437,170 @@ function getToken(){
     return($token);
 
 }
-function getRight($id,$tipo_id){
-   
-    
+function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
+    //$ips_ab=='900592759'
+    // echo $sTipoIdentificacion;
     $data_array = (
-        array(
-            "resourceType" => 'Parameters',
-            "id" => 'CorrelationId',
-            "parameter" => array(
-                array("name" => 'documentType',
-                "valueString" => $tipo_id),
-                array(
-                    "name" => 'documentId',
-                    "valueString" => $id,
-                    //"valueString" => '1128060255',
-                    //"valueString" => '45544444',
-                    //"valueString" => '                                                                                                                                                ',
-                    //"valueString" => '1044627275',
-                ),
-                /*array(
-                    "name" => 'idIPS',
-                    "valueString" => '901111348',
-                ),
-                array(
-                    "name" => 'cupsCode',
-                    "valueString" => '890301',
-                )*/
-            )
+    array(
+        "resourceType" => 'Parameters',
+        "id" => 'CorrelationId',
+        "parameter" => array(
+            array("name" => 'documentType',
+                "valueString" => $sTipoIdentificacion),
+            array(
+                "name" => 'documentId',
+                "valueString" => $sNumeroIdentificacion,
+                //"valueString" => '1128060255',
+                //"valueString" => '45544444',
+                //"valueString" => '                                                                                                                                                ',
+                //"valueString" => '1044627275',
+            ),
+            /*array(
+                "name" => 'idIPS',
+                "valueString" => '901111348',
+            ),
+            array(
+                "name" => 'cupsCode',
+                "valueString" => '890301',
+            )*/
         )
+    )
     );
     $token=getToken();
 
 
-    $get_data = callAPI('POST', 'https://mutual-verificador-dot-gcp-mutualser-webservices-prod.appspot.com/validateRights/', json_encode($data_array),'application/json', $token);
+    $get_data = callAPI('POST', $_SESSION['rights_api_url'], json_encode($data_array),'application/json', $token);
     $get_data = json_decode($get_data, true);
     //Notify the browser about the type of the file using header function
     header('Content-type: text/javascript');
-    header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Headers: *");
-    // echo json_encode($get_data, JSON_PRETTY_PRINT);
-    // console.log("get_data-->", $get_data);
+    //echo json_encode($get_data, JSON_PRETTY_PRINT);
+
     //Var_dump($get_data['entry'][0]['resource']['managingOrganizationResource']['id']) ;
-    if($get_data['entry'][0]['resource']['id']!='400-04'){
+    if(($get_data['entry'][0]['resource']['id']!='400-04')&&($get_data['entry'][0]['resource']['id']!='500-01')&&($get_data['entry'][0]['resource']['id']!='400-03')){
         //echo json_encode($get_data['entry'][0]['resource']['extension'], JSON_PRETTY_PRINT);//$get_data['entry'][0]['resource']['extension']['url']='mutualSER\/hl7\/patient\/healthModality'
         //die();
         $extensions=$get_data['entry'][0]['resource']['extension'];
-        //var_dump($extensions);
-        foreach ($extensions as $valor){
-            
-                $url = $valor['url'];
-                
-                if($url == 'mutualSER/hl7/patient/healthModality'){
-                    $regimen=  $valor['valueCoding']['code'];
-                    $res=  array( "regimen" => $regimen,);
+        /* Datos de paciente que llegan de Mutual */
+        $sFechaNacimiento=$get_data['entry'][0]['resource']['birthDate'];
+        $full_name=$get_data['entry'][0]['resource']['identifier']['name'][0]['text'];
+        $apellidos=$get_data['entry'][0]['resource']['name'][0]['family'];
+        $nombres=$get_data['entry'][0]['resource']['name'][0]['given'];
+        $sPrimerNombre=$nombres[0];
+        $sSegundoNombre=$nombres[1];
+        $sPrimerApellido = explode("=", explode("|", $apellidos)[0])[1];
+        $sSegundoApellido = explode("=", explode("|", $apellidos)[1])[1];
+        $sSexo=$get_data['entry'][0]['resource']['gender'];
+        $telecom=$get_data['entry'][0]['resource']['telecom'];
+        $sDireccion=$get_data['entry'][0]['resource']['address'][0]['text'];
+        $ciudad=$get_data['entry'][0]['resource']['address'][0]['city'];
+        $sZipCode=explode("=", explode("|", $ciudad)[0])[1];
+        $ciudad=explode("=", explode("|", $ciudad)[1])[1];
+        $sDepartamento=$get_data['entry'][0]['resource']['address'][0]['state'];
+        $sDepartamento=explode("=", explode("|", $sDepartamento)[1])[1];
+
+
+        if($sSexo=='FEMALE'){
+            $sSexo='F';
+        }else{
+            $sSexo='M';
+        }
+
+        foreach ($telecom as $valor){
+            if($valor['system']=='phone'){
+                $use = $valor['use'];
+
+                if($use == 'home'){
+                    $sTelefonoResidencia=  $valor['value'];
+                }
+                if($use == 'mobile'){
+                    $sTelefonoCelular =  $valor['value'];
+                }
             }
+            else{
+                if($valor['system']=='email'){
+                    $sCorreo=$valor['value'];
+                }
+            }
+        }
+        //$tipo_id, $id
+        $data_array2 =  array(
+            "sTipoIdentificacion" => $sTipoIdentificacion,
+            "sNumeroIdentificacion" => $sNumeroIdentificacion,
+            "sPrimerNombre"=> $sPrimerNombre,
+            "sSegundoNombre"=> $sSegundoNombre,
+            "sPrimerApellido"=>$sPrimerApellido,
+            "sSegundoApellido"=>$sSegundoApellido,
+            "sFechaNacimiento"=>$sFechaNacimiento,
+            "sDireccion"=>$sDireccion,
+            "sTelefonoResidencia"=>$sTelefonoResidencia,
+            "sCorreo"=>$sCorreo,
+            "sTelefonoCelular"=>$sTelefonoCelular,
+            "sSexo"=>$sSexo,
+            "full_name" => $full_name,
+            "sCiudad" => $ciudad,
+            "sZipCode" => $sZipCode,
+            "sDepartamento" => $sDepartamento,
+        );
+        //print_r($sTipoIdentificacion);
+
+        foreach ($extensions as $valor){
+
+            $url = $valor['url'];
+
+
+            if($url == 'mutualSER/hl7/patient/healthModality'){
+                $regimen=  $valor['valueCoding']['code'];
+
+            }
+            if($url == 'mutualSER/hl7/patient/afilliateStatus'){
+                $estado_afiliado=  $valor['valueCoding']['display'];
+
+            }
+            if($url == 'mutualSER/hl7/patient/programs'){
+                $programs_extensions=  $valor['extension'][0];
+                if (!empty($programs_extensions)) {
+                    $programa = $programs_extensions['valueCoding']['display'];
+                }else{
+                    $programa = 'False';
+                }
+
+            }
+
 
             if($valor['url'] == 'mutualSER/hl7/patient/managingOrganization')
             {
                 $ips_ab=$valor['extension'][0]['valueCoding']['code'];
                 $ips_ab_Name=$valor['extension'][0]['valueCoding']['display'];
-
-                //echo "NIT: $ips_ab - IPS: $ips_ab_Name";
-
             }
-
-            
         }
-        if($ips_ab=='900592759'){
-                //echo "Pertenece a HeedSalud";
-                $res=  array( "estado"=>'200', "mensaje" => "Encontrado para la IPS","ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen);
-        
+        if($ips_ab=='900592759'){//Nit de empresa donde se atendera
+            //echo "Pertenece a HeedSalud";
+
+            $res=  array( "estado"=>'200', "mensaje" => "Encontrado para la IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,  "ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'Capita+PGP','programa' => $programa, 'paciente'=> $data_array2);
+
 
         }else {
             //echo "No pertenece a HeeedSalud";
-            $res=  array("estado"=>'201', "mensaje" => "Encontrado en otra IPS", "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> "Error");
+            if($ciudad!="CARTAGENA"){
+                $res=  array("estado"=>'201', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'EV', 'programa' => $programa, 'paciente'=> $data_array2);
+            }
+            $res=  array("estado"=>'201', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'PGP', 'programa' => $programa, 'paciente'=> $data_array2);
         }
-        echo json_encode($res);
-            
+        echo json_encode($res);//CAMBIO
+
     }else{
         //var_dump($get_data);die();
         $data_array = (
-            array(
-                "estado" => '404',
-                "mensaje" => 'Afiliado no encontrado, en Mutual Ser',
-                'regimen'=> 'Error'
-            )
+        array(
+            "estado" => $get_data['entry'][0]['resource']['id'],
+            "mensaje" => $get_data['entry'][0]['resource']['issue']['details']['text'],
+            'regimen'=> 'Error'
+        )
         );
-        echo json_encode($data_array);
+        echo json_encode($data_array);//CAMBIO
     }
-    
-    
+
+
 
 }
 function ListarSedes(){
