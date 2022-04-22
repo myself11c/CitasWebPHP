@@ -11,7 +11,7 @@ $_SESSION['contraseña_mutual']='Hju8Ghj7Yhn0';
 
 $_SESSION['autorization_api_sios'] ='Y2FtaW5vc2lwczpCaHU4TmppOU1rbzA=';
 
-$_SESSION['rights_api_url'] ='https://mutual-verificador-dot-gcp-mutualser-webservices-prod.appspot.com/validateRights/';
+$_SESSION['rights_api_url'] ='https://validador-derechos.mutualser.com/validateRights/';
 
 $_SESSION['token_rights_api_url'] ='https://gcp-mutualser-keycloak-prod.appspot.com/auth/realms/right-validation/protocol/openid-connect/token';
 
@@ -108,7 +108,11 @@ function callAPI($method, $url, $data, $content_type, $token)
     // OPTIONS:
 
     curl_setopt($curl, CURLOPT_URL, $url);
-    if($content_type=='application/json; charset=utf-8'){
+    if($content_type=='application/json; charset=utf-8;text'){
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Content-Type:'. 'application/json; charset=utf-8;',
+        ));
+    }else if($content_type=='application/json; charset=utf-8'){
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
             'Authorization: Basic "aGVlZHNhbHVkOkJodThOamk5TWtvMA=="',
             'Content-Type:'. $content_type,
@@ -438,7 +442,6 @@ function getToken(){
 
 }
 function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
-    //$ips_ab=='900592759'
     // echo $sTipoIdentificacion;
     $data_array = (
     array(
@@ -573,7 +576,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
                 $ips_ab_Name=$valor['extension'][0]['valueCoding']['display'];
             }
         }
-        if($ips_ab=='900592759'){//Nit de empresa donde se atendera
+        if($ips_ab==$_SESSION['nit']){//Nit de empresa donde se atendera
             //echo "Pertenece a HeedSalud";
 
             $res=  array( "estado"=>'200', "mensaje" => "Encontrado para la IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,  "ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'Capita+PGP','programa' => $programa, 'paciente'=> $data_array2);
@@ -599,6 +602,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
         );
         echo json_encode($data_array);//CAMBIO
     }
+
 
 
 
