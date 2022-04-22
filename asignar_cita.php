@@ -207,7 +207,7 @@ Navbar
                     <p class="mb-0 text-secondary">
                         Copyright © <script>
                             document.write(new Date().getFullYear())
-                        </script> HeedSalud del Caribe S.A.S.
+                        </script>
                     </p>
                 </div>
             </div>

@@ -21,7 +21,7 @@ foreach($_GET as $nombre_campo => $valor){
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="assets/img/favicon.png">
     <title>
-        Autogestion - HeedSalud del Caribe S.A.S.
+        Autogestion
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -187,7 +187,7 @@ Navbar
                         <p class="mb-0 text-secondary">
                             Copyright © <script>
                                 document.write(new Date().getFullYear())
-                            </script> HeedSalud del Caribe S.A.S.
+                            </script> 
                         </p>
                     </div>
                 </div>
