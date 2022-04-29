@@ -1,8 +1,8 @@
 <?php
 
-$data=callAPI('GET','http://apioficinavirtualreactjsdev-env.eba-e52atg8q.us-west-2.elasticbeanstalk.com/empresas/IdEmpresa/6106cf13d71dc264a783923d', '','application/json; charset=utf-8;text','');
+$data=callAPI_DataOf('GET','http://apioficinavirtualreactjsdev-env.eba-e52atg8q.us-west-2.elasticbeanstalk.com/empresas/IdEmpresa/6106cf13d71dc264a783923d', '','application/json; charset=utf-8;text','');
 
-//$get_data = callAPI('POST', $_SESSION['rights_api_url'], json_encode($data_array),'application/json', $token);
+//$get_data = callAPI-DataOf('POST', $_SESSION['rights_api_url'], json_encode($data_array),'application/json', $token);
 
 $data = json_decode($data, true);
     //Notify the browser about the type of the file using header function
@@ -10,27 +10,9 @@ header('Content-type: text/javascript');
 
 //echo $data['objConexiones'];
 //var_dump($data['empresas'][0]['objConexiones']);
-echo json_encode($data['empresas'][0]['objConexiones'], JSON_PRETTY_PRINT);
+//echo json_encode($data['empresas'][0]['objConexiones'], JSON_PRETTY_PRINT);
 
-/*$data =  array(
-    "Usuario"        => "CAMINOS",
-    "Clave"         => "901111348",
-);*/
-/*   "Usuario": "CAMINOS",
-    "Clave": "901111348"
-*/
-//$data=callAPI('POST','http://apioficinavirtualreactjsdev-env.eba-e52atg8q.us-west-2.elasticbeanstalk.com/usuariosApis/validarIngreso', $data,'application/json; charset=utf-8;text','');
 
-//$data = json_decode($data, true);
-//Notify the browser about the type of the file using header function
-//header('Content-type: text/javascript');
-
-//print_r($data);
-
-/*
- * if($sNumeroIdentificacion=="1047384926"){
-                $res=  array("estado"=>'200', "mensaje" => "Usuario de prueba", "estado_afiliado"=>"Activo", "ips_id"=> "prueba","ips_name"=> "prueba", 'regimen'=> "C", 'tipo'=> 'EV', 'programa' => "", 'paciente'=> $data_array2);
-            }*/
 
 /* Seteo de Variables de la parametrizacion */
 
@@ -48,9 +30,9 @@ $_SESSION['rights_api_url'] =$data['empresas'][0]['objConexiones']['_SESSION_rig
 
 $_SESSION['token_rights_api_url'] =$data['empresas'][0]['objConexiones']['_SESSION_token_rights_api_url'];
 
-echo $_SESSION['token_rights_api_url'];
+//echo $_SESSION['api_citas_url'];
 
-function callAPI($method, $url, $data, $content_type, $token)
+function callAPI_DataOf($method, $url, $data, $content_type, $token)
 {
     $curl = curl_init();
     switch ($method) {

@@ -1,9 +1,9 @@
 <?php
 ini_set('display_errors', 'Off');
 
-$_SESSION['api_citas_url'] ='http://localhost:8023/apicitas/';
+/*$_SESSION['api_citas_url'] ='http://190.61.55.218:8023/apicitas/';
 
-$_SESSION['nit']='901111348';
+$_SESSION['nit']='900592759';
 
 $_SESSION['usuario_mutual']='sios-hdsalud';
 
@@ -13,7 +13,8 @@ $_SESSION['autorization_api_sios'] ='Y2FtaW5vc2lwczpCaHU4TmppOU1rbzA=';
 
 $_SESSION['rights_api_url'] ='https://validador-derechos.mutualser.com/validateRights/';
 
-$_SESSION['token_rights_api_url'] ='https://gcp-mutualser-keycloak-prod.appspot.com/auth/realms/right-validation/protocol/openid-connect/token';
+$_SESSION['token_rights_api_url'] ='https://gcp-mutualser-keycloak-prod.appspot.com/auth/realms/right-validation/protocol/openid-connect/token';*/
+require_once 'getDatosEmpresa.php';
 
 foreach($_POST as $nombre_campo => $valor){
      $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
@@ -168,7 +169,7 @@ function BuscarPacientesSIOS($id,$tipo_id)//Busca paciente por cedula con tipo d
         "sTipoIdentificacion"         => $tipo_id,
     );
 
-    $find_paciente = callAPI('POST', 'http://190.61.55.218:8023/apicitas/pacientes/buscar', json_encode($data_array),'application/json; charset=utf-8','');
+    $find_paciente = callAPI('POST', $_SESSION['api_citas_url'].'pacientes/buscar', json_encode($data_array),'application/json; charset=utf-8','');
     $response = json_decode($find_paciente, true);
     header('Content-type: text/javascript');
     // header("Access-Control-Allow-Origin: *");
@@ -230,7 +231,7 @@ function ListarTurnosPrestadores( $sCodigoEspecialidad,  $id_pacienteSios, $sIdS
     );
     //var_dump($data_array);
 
-    $get_data = callAPI('POST', 'http://190.61.55.218:8023/apicitas/turnosprestadores/buscarporespecialidad', json_encode($data_array),'application/json; charset=utf-8','');
+    $get_data = callAPI('POST', $_SESSION['api_citas_url'].'turnosprestadores/buscarporespecialidad', json_encode($data_array),'application/json; charset=utf-8','');
 
 
       $response = json_decode($get_data, true);
@@ -251,7 +252,7 @@ function BuscarTurnosPorFecha($sFecha,$sCodigoEspecialidad, $sIdSede, $sIdPresta
         "sFecha" => $sFecha,
         "sIdPrestador" => $sIdPrestador,
     );
-    $get_data = callAPI('POST', 'http://190.61.55.218:8023/apicitas/turnosprestadores/buscarporfecha', json_encode($data_array),'application/json; charset=utf-8','');
+    $get_data = callAPI('POST', $_SESSION['api_citas_url'].'turnosprestadores/buscarporfecha', json_encode($data_array),'application/json; charset=utf-8','');
 
 
     $response = json_decode($get_data, true);
@@ -276,7 +277,7 @@ function BuscarPacientePorID($id_usuario)//Busca paciente por cedula con tipo de
     );
 
 
-    $find_paciente = callAPI('GET', 'http://190.61.55.218:8023/apicitas/pacientes/buscarporid/'.$id_usuario, false,'application/json; charset=utf-8','');
+    $find_paciente = callAPI('GET', $_SESSION['api_citas_url'].'pacientes/buscarporid/'.$id_usuario, false,'application/json; charset=utf-8','');
     $response = json_decode($find_paciente, true);
 
     if ($response['Estado'] == '200') {
@@ -306,7 +307,7 @@ function insertarCita($sIdPaciente, $sIdAdministradora, $iIdTurnos, $sFechaCita,
     );
 
 
-    $get_data = callAPI('POST', 'http://190.61.55.218:8023/apicitas/citas/insertar', json_encode($data_array),'application/json; charset=utf-8','');
+    $get_data = callAPI('POST', $_SESSION['api_citas_url'].'citas/insertar', json_encode($data_array),'application/json; charset=utf-8','');
 
 
     $response = json_decode($get_data, true);
@@ -331,7 +332,7 @@ function recordarCita($idCita){
     ///BuscarPorId/19719
     /*{"ListaCitas":[],"Cita":{"iIdCita":2532081,"sFechaCita":"11\/11\/2020 16:30:00","sSede":"Consolata Caminos IPS SAS","sPrestador":"JAIME CARLOS ROCA BLANCO","sEspecialidad":"MEDICINA GENERAL TELEMEDICINA","sProgramaPyP":"","sCancelada":"NO","sAtendido":"-","sMultado":"-","sAutorizacion":"","sUsuarioRegistro":"Api","sUsuarioCancelacion":"","sConsulta":"TELEMEDICINA CONSULTA DE PRIMERA VEZ POR MEDICINA GENERAL","sHora":"","sCodigoEspecialidad":"","sMensajeConfirmacion":"","sFechaDeseada":"","sIdPaciente":"","bVigente":false,"sConsecutivoCita":"","sConsultorio":"","sIdAdministradora":"","sRegimen":"","iIdTurnos":0,"bCitaEspecializada":false,"sTipoAtencion":"","gsRutaReporte":"C:\\inetpub\\wwwroot\\ApiCitas\\Informes\\"},*/
 
-    $get_data = callAPI('GET', 'http://190.61.55.218:8023/apicitas/citas/buscarporid/'.$idCita, false,'application/json; charset=utf-8','');
+    $get_data = callAPI('GET', $_SESSION['api_citas_url'].'citas/buscarporid/'.$idCita, false,'application/json; charset=utf-8','');
 
     $response = json_decode($get_data, true);
 
@@ -351,7 +352,7 @@ function cancelarCita($idCita){
         "iIdCita"   => $idCita
     );
     //echo $idCita;
-    $get_data = callAPI('POST', 'http://190.61.55.218:8023/apicitas/citas/cancelar', json_encode($data_array),'application/json; charset=utf-8','');
+    $get_data = callAPI('POST', $_SESSION['api_citas_url'].'citas/cancelar', json_encode($data_array),'application/json; charset=utf-8','');
 
     $response = json_decode($get_data, true);
 
@@ -373,7 +374,7 @@ function verHistorial($idPaciente){
     $data_array =  array(
         "sIdPaciente"   => $idPaciente
     );
-    $get_data = callAPI('POST', 'http://190.61.55.218:8023/apicitas/citas/historial', json_encode($data_array),'application/json; charset=utf-8','');
+    $get_data = callAPI('POST', $_SESSION['api_citas_url'].'citas/historial', json_encode($data_array),'application/json; charset=utf-8','');
 
     $response = json_decode($get_data, true);
 
@@ -407,7 +408,7 @@ function CreatePaciente($sNumeroIdentificacion, $sTipoIdentificacion, $sPrimerNo
         "sSexo"=>$sSexo,
     );
     //$method, $url, $data, $content_type, $token
-    $get_data = callAPI('POST', 'http://190.61.55.218:8023/apicitas/pacientes/insertar', json_encode($data_array), 'application/json; charset=utf-8', '');
+    $get_data = callAPI('POST', $_SESSION['api_citas_url'].'pacientes/insertar', json_encode($data_array), 'application/json; charset=utf-8', '');
 
 
     $response = json_decode($get_data, true);
@@ -485,7 +486,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
         $extensions=$get_data['entry'][0]['resource']['extension'];
         /* Datos de paciente que llegan de Mutual */
         $sFechaNacimiento=$get_data['entry'][0]['resource']['birthDate'];
-        $full_name=$get_data['entry'][0]['resource']['identifier']['name'][0]['text'];
+        //$full_name=$get_data['entry'][0]['resource']['identifier']['name'][0]['text'];
         $apellidos=$get_data['entry'][0]['resource']['name'][0]['family'];
         $nombres=$get_data['entry'][0]['resource']['name'][0]['given'];
         $sPrimerNombre=$nombres[0];
@@ -539,7 +540,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
             "sCorreo"=>$sCorreo,
             "sTelefonoCelular"=>$sTelefonoCelular,
             "sSexo"=>$sSexo,
-            "full_name" => $full_name,
+          //  "full_name" => $full_name,
             "sCiudad" => $ciudad,
             "sZipCode" => $sZipCode,
             "sDepartamento" => $sDepartamento,
@@ -609,7 +610,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
 }
 function ListarSedes(){
 
-    $ListarSedes = callAPI('GET', 'http://190.61.55.218:8023/apicitas/sedes/listar', '','application/json; charset=utf-8','');
+    $ListarSedes = callAPI('GET', $_SESSION['api_citas_url'].'sedes/listar', '','application/json; charset=utf-8','');
     $response = json_decode($ListarSedes, true);
 
     if ($response['Estado'] == '200') {
@@ -625,7 +626,7 @@ function ListarSedes(){
 }
 function ListarEspecialidades(){
 
-    $ListarEsp = callAPI('GET', 'http://190.61.55.218:8023/apicitas/especialidades/listar', '','application/json; charset=utf-8','');
+    $ListarEsp = callAPI('GET', $_SESSION['api_citas_url'].'especialidades/listar', '','application/json; charset=utf-8','');
     $response = json_decode($ListarEsp, true);
     //var_dump($ListarEsp);die();
     if ($response['Estado'] == '200') {
