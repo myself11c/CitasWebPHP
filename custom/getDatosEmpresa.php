@@ -1,6 +1,10 @@
 <?php
 
-$data=callAPI_DataOf('GET','http://apioficinavirtualreactjsdev-env.eba-e52atg8q.us-west-2.elasticbeanstalk.com/empresas/IdEmpresa/6106cf13d71dc264a783923d', '','application/json; charset=utf-8;text','');
+if(!$IdEmpresa){
+$IdEmpresa='6106cf13d71dc264a783923d';
+}
+
+$data=callAPI_DataOf('GET','http://apioficinavirtualreactjsdev-env.eba-e52atg8q.us-west-2.elasticbeanstalk.com/empresas/IdEmpresa/'.$IdEmpresa, '','application/json; charset=utf-8;text','');
 
 //$get_data = callAPI-DataOf('POST', $_SESSION['rights_api_url'], json_encode($data_array),'application/json', $token);
 
@@ -10,7 +14,7 @@ header('Content-type: text/javascript');
 
 //echo $data['objConexiones'];
 //var_dump($data['empresas'][0]['objConexiones']);
-//echo json_encode($data['empresas'][0]['objConexiones'], JSON_PRETTY_PRINT);
+//echo json_encode($data['empresas'][0]['Municipio'], JSON_PRETTY_PRINT);
 
 
 
@@ -30,7 +34,9 @@ $_SESSION['rights_api_url'] =$data['empresas'][0]['objConexiones']['_SESSION_rig
 
 $_SESSION['token_rights_api_url'] =$data['empresas'][0]['objConexiones']['_SESSION_token_rights_api_url'];
 
-//echo $_SESSION['api_citas_url'];
+$_SESSION['nombre_empresa']=$data['empresas'][0]['Nombre'];
+
+$_SESSION['Municipio']=$data['empresas'][0]['Municipio'];
 
 function callAPI_DataOf($method, $url, $data, $content_type, $token)
 {

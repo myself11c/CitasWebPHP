@@ -14,7 +14,6 @@ $_SESSION['autorization_api_sios'] ='Y2FtaW5vc2lwczpCaHU4TmppOU1rbzA=';
 $_SESSION['rights_api_url'] ='https://validador-derechos.mutualser.com/validateRights/';
 
 $_SESSION['token_rights_api_url'] ='https://gcp-mutualser-keycloak-prod.appspot.com/auth/realms/right-validation/protocol/openid-connect/token';*/
-require_once 'getDatosEmpresa.php';
 
 foreach($_POST as $nombre_campo => $valor){
      $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
@@ -25,7 +24,7 @@ foreach($_GET as $nombre_campo => $valor){
       $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
     eval($asignacion);
 }
-
+require_once 'getDatosEmpresa.php';
 switch ($opcion) {
     case "right-validation":
         getRight($id,$tipo_id);
@@ -551,6 +550,12 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
 
             $url = $valor['url'];
 
+            //mutualSER\/hl7\/patient\/afilliateStatus
+
+            if($url == 'mutualSER\/hl7\/patient\/afilliateStatus'){
+                $estado=  $valor['valueCoding']['display'];
+
+            }
 
             if($url == 'mutualSER/hl7/patient/healthModality'){
                 $regimen=  $valor['valueCoding']['code'];
@@ -577,16 +582,16 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
                 $ips_ab_Name=$valor['extension'][0]['valueCoding']['display'];
             }
         }
-        if($ips_ab==$_SESSION['nit']){//Nit de empresa donde se atendera
+        if($ips_ab==$_SESSION['nit'] && $estado=='ACTIVO'){//Nit de empresa donde se atendera
             //echo "Pertenece a HeedSalud";
 
             $res=  array( "estado"=>'200', "mensaje" => "Encontrado para la IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,  "ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'Capita+PGP','programa' => $programa, 'paciente'=> $data_array2);
 
 
         }else {
-            //echo "No pertenece a HeeedSalud";
-            if($ciudad!="CARTAGENA"){
-                $res=  array("estado"=>'201', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'EV', 'programa' => $programa, 'paciente'=> $data_array2);
+            //echo "No pertenece a Empresa";
+            if($ciudad!=$_SESSION['Municipio']){
+                $res=  array("estado"=>'200', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'EV', 'programa' => $programa, 'paciente'=> $data_array2);
             }
             $res=  array("estado"=>'201', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'PGP', 'programa' => $programa, 'paciente'=> $data_array2);
         }
@@ -598,7 +603,8 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
         array(
             "estado" => $get_data['entry'][0]['resource']['id'],
             "mensaje" => $get_data['entry'][0]['resource']['issue']['details']['text'],
-            'regimen'=> 'Error'
+            'regimen'=> 'Error',
+            'empresa'=> $_SESSION['nombre_empresa']
         )
         );
         echo json_encode($data_array);//CAMBIO

@@ -1856,11 +1856,12 @@ function getEstadoAfiliado(id, tipo_id)
           var ret = JSON.stringify(data);
           console.log(ret);
           if(estado!="200"){
+            var empresa = data.empresa;
             swal.fire({
               allowOutsideClick: false, 
               type: 'warning',
               title: 'Informacion',
-              html: 'Sr. Usuario. Usted no se encuentra registrado en la Base de informacion de Heedsalud del Caribe, porfavor comuníquese a su EPS o a MUTUAL SER a su eps correspondiente para que verifique su información',
+              html: 'Sr. Usuario. Usted no se encuentra registrado en la Base de informacion de '+empresa+', porfavor comuníquese  a MUTUAL SER  o a su eps correspondiente para que verifique su información',
              
             }).then((result) => {
               if (result) {
