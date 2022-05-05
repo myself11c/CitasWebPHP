@@ -582,13 +582,13 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
         if($ips_ab==$_SESSION['nit'] && $estado_afiliado=='ACTIVO'){//Nit de empresa donde se atendera
             
 
-            $res=  array( "estado"=>'200', "mensaje" => "Encontrado para la IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,  "ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'Capita+PGP','programa' => $programa, 'paciente'=> $data_array2);
+            $res=  array( "estado"=>'500-01', "mensaje" => "Encontrado para la IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,  "ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'Capita+PGP','programa' => $programa, 'paciente'=> $data_array2);
 
 
         }else {
             //echo $_SESSION['Municipio'];
             if($ciudad!=$_SESSION['Municipio']){
-                $res=  array("estado"=>'200', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'EV', 'programa' => $programa, 'paciente'=> $data_array2);
+                $res=  array("estado"=>'500-01', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'EV', 'programa' => $programa, 'paciente'=> $data_array2);
             }
             $res=  array("estado"=>'500-01', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'PGP', 'programa' => $programa, 'empresa'=> $_SESSION['nombre_empresa'], 'paciente'=> $data_array2);
         }
