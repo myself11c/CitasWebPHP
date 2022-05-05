@@ -147,6 +147,7 @@ function callAPI($method, $url, $data, $content_type, $token)
             case 404:# No hay datos
                 break;
             case 500:# Ya hay datos
+                    echo 'Unexpected HTTP code: ', $http_code, "\n";
                 break;     
             default:
                 echo 'Unexpected HTTP code: ', $http_code, "\n";
@@ -589,7 +590,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
             if($ciudad!=$_SESSION['Municipio']){
                 $res=  array("estado"=>'200', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'EV', 'programa' => $programa, 'paciente'=> $data_array2);
             }
-            $res=  array("estado"=>'201', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'PGP', 'programa' => $programa, 'empresa'=> $_SESSION['nombre_empresa'], 'paciente'=> $data_array2);
+            $res=  array("estado"=>'500-01', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'PGP', 'programa' => $programa, 'empresa'=> $_SESSION['nombre_empresa'], 'paciente'=> $data_array2);
         }
         echo json_encode($res);//CAMBIO
 
