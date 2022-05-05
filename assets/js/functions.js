@@ -1855,7 +1855,7 @@ function getEstadoAfiliado(id, tipo_id)
           console.log('Estado '+ estado+ ' Mensaje '+ mensaje + 'Regimen ' + sRegimen);
           var ret = JSON.stringify(data);
           console.log(ret);
-          if(estado!="200"){
+          if(estado=="400-04"){
             var empresa = data.empresa;
             swal.fire({
               allowOutsideClick: false, 
@@ -1868,7 +1868,19 @@ function getEstadoAfiliado(id, tipo_id)
                 location.reload();
               }
             });
-
+          }else if(estado=="500-01" || estado=="400-03"){
+            
+            swal.fire({
+              allowOutsideClick: false, 
+              type: 'warning',
+              title: 'Señor usuario, ofrecemos disculpas.',
+              html: '<b> ¡Página en mantenimiento!</b><br> Actualmente nos encontramos realizando actualizaciíon y mejoras en el proceso de autoasignación de citas, lo invitamos a ingresar más tarde.',
+             
+            }).then((result) => {
+              if (result) {
+                location.reload();
+              }
+            });
           }else{
             //var obj = JSON.parse(ret);   
             tipo_usuario=sRegimen;

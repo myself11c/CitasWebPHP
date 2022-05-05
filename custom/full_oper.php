@@ -552,11 +552,6 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
 
             //mutualSER\/hl7\/patient\/afilliateStatus
 
-            if($url == 'mutualSER\/hl7\/patient\/afilliateStatus'){
-                $estado=  $valor['valueCoding']['display'];
-
-            }
-
             if($url == 'mutualSER/hl7/patient/healthModality'){
                 $regimen=  $valor['valueCoding']['code'];
 
@@ -582,18 +577,18 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
                 $ips_ab_Name=$valor['extension'][0]['valueCoding']['display'];
             }
         }
-        if($ips_ab==$_SESSION['nit'] && $estado=='ACTIVO'){//Nit de empresa donde se atendera
-            //echo "Pertenece a HeedSalud";
+        if($ips_ab==$_SESSION['nit'] && $estado_afiliado=='ACTIVO'){//Nit de empresa donde se atendera
+            echo $_SESSION['nit'];
 
             $res=  array( "estado"=>'200', "mensaje" => "Encontrado para la IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,  "ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'Capita+PGP','programa' => $programa, 'paciente'=> $data_array2);
 
 
         }else {
-            //echo "No pertenece a Empresa";
+            echo $_SESSION['Municipio'];
             if($ciudad!=$_SESSION['Municipio']){
                 $res=  array("estado"=>'200', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'EV', 'programa' => $programa, 'paciente'=> $data_array2);
             }
-            $res=  array("estado"=>'201', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'PGP', 'programa' => $programa, 'paciente'=> $data_array2);
+            $res=  array("estado"=>'201', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'PGP', 'programa' => $programa, 'empresa'=> $_SESSION['nombre_empresa'], 'paciente'=> $data_array2);
         }
         echo json_encode($res);//CAMBIO
 
