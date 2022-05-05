@@ -577,7 +577,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
                 $ips_ab_Name=$valor['extension'][0]['valueCoding']['display'];
             }
         }
-        echo $_SESSION['nit'];
+        //echo $_SESSION['nit'];
         if($ips_ab==$_SESSION['nit'] && $estado_afiliado=='ACTIVO'){//Nit de empresa donde se atendera
             
 
@@ -585,7 +585,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
 
 
         }else {
-            echo $_SESSION['Municipio'];
+            //echo $_SESSION['Municipio'];
             if($ciudad!=$_SESSION['Municipio']){
                 $res=  array("estado"=>'200', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'EV', 'programa' => $programa, 'paciente'=> $data_array2);
             }

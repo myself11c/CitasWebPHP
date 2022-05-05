@@ -14,7 +14,7 @@ header('Content-type: text/javascript');
 
 //echo $data['objConexiones'];
 //var_dump($data['empresas'][0]['objConexiones']);
-//echo json_encode($data['empresas'][0]['Municipio'], JSON_PRETTY_PRINT);
+echo json_encode($data['empresas'][0], JSON_PRETTY_PRINT);
 
 
 
@@ -22,7 +22,7 @@ header('Content-type: text/javascript');
 
 $_SESSION['api_citas_url'] =$data['empresas'][0]['objConexiones']['api_citas_url'];
 
-$_SESSION['nit']=$data['empresas'][0]['objConexiones']['_SESSION_nit'];
+$_SESSION['nit']=$data['empresas'][0]['Nit'];
 
 $_SESSION['usuario_mutual']=$data['empresas'][0]['objConexiones']['_SESSION_usuario_mutual'];
 
