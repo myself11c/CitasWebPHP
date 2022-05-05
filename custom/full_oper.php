@@ -577,8 +577,9 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
                 $ips_ab_Name=$valor['extension'][0]['valueCoding']['display'];
             }
         }
+        echo $_SESSION['nit'];
         if($ips_ab==$_SESSION['nit'] && $estado_afiliado=='ACTIVO'){//Nit de empresa donde se atendera
-            echo $_SESSION['nit'];
+            
 
             $res=  array( "estado"=>'200', "mensaje" => "Encontrado para la IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,  "ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'Capita+PGP','programa' => $programa, 'paciente'=> $data_array2);
 
