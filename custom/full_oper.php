@@ -479,7 +479,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
     //echo json_encode($get_data, JSON_PRETTY_PRINT);
 
     //Var_dump($get_data['entry'][0]['resource']['managingOrganizationResource']['id']) ;
-    if(($get_data['entry'][0]['resource']['id']!='400-04')&&($get_data['entry'][0]['resource']['id']!='500-01')&&($get_data['entry'][0]['resource']['id']!='400-03')){
+    if(($get_data['entry'][0]['resource']['id']!='400-04')&&($get_data['entry'][0]['resource']['id']!='500-01')&&($get_data['entry'][0]['resource']['id']!='400-03')&&($get_data['entry'][0]['resource']['id']!='500')){
         //echo json_encode($get_data['entry'][0]['resource']['extension'], JSON_PRETTY_PRINT);//$get_data['entry'][0]['resource']['extension']['url']='mutualSER\/hl7\/patient\/healthModality'
         //die();
         $extensions=$get_data['entry'][0]['resource']['extension'];
