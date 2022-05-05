@@ -227,6 +227,7 @@ $.datepicker.setDefaults($.datepicker.regional['es']);
     });
   });*/
 
+  var IdEmpresa=$('#IdEmpresa').val();
 
 function asignaCita(id_obj,id_hora,id_medico,val_hora,val_medico,obj_nombre,id_nomb_med,id_email,id_telefono,id_direccion){
   var obj = document.getElementById(id_obj);
@@ -345,12 +346,12 @@ swal.fire({
     
     console.log(JSON.stringify(objJson));
 
-    console.log('custom/full_oper.php?idPacientesSios='+iIdPacienteSios+'&IdAdministradora='+IdAdministradora+'&idTurno='+idTurno+ '&sFechaCita='+objJson.sFechaCita+'&sRegimen='+tipo_usuario+'&TipoAtencion='+TipoAtencion+'&bCitaEspecialista=0&opcion=InsertarCita');
+    console.log('custom/full_oper.php?idPacientesSios='+iIdPacienteSios+'&IdAdministradora='+IdAdministradora+'&idTurno='+idTurno+ '&sFechaCita='+objJson.sFechaCita+'&sRegimen='+tipo_usuario+'&TipoAtencion='+TipoAtencion+'&IdEmpresa='+IdEmpresa+'&bCitaEspecialista=0&opcion=InsertarCita');
 
     $.ajax(
       {
           type: "GET",
-          url: 'custom/full_oper.php?idPacientesSios='+iIdPacienteSios+'&IdAdministradora='+IdAdministradora+'&idTurno='+idTurno+ '&sFechaCita='+objJson.sFechaCita+'&sRegimen='+tipo_usuario+'&TipoAtencion=MG'+'&bCitaEspecialista=false&opcion=InsertarCita',
+          url: 'custom/full_oper.php?idPacientesSios='+iIdPacienteSios+'&IdAdministradora='+IdAdministradora+'&idTurno='+idTurno+ '&sFechaCita='+objJson.sFechaCita+'&sRegimen='+tipo_usuario+'&TipoAtencion=MG'+'&IdEmpresa='+IdEmpresa+'&bCitaEspecialista=false&opcion=InsertarCita',
           //data: (objJson),
           //headers: ajax_headers,
           contentType: "application/json; charset=utf-8",
@@ -472,7 +473,7 @@ function BuscarCitasPorId(idCita){
     $.ajax(
       {
          type: "GET",
-         url: 'custom/full_oper.php?idCita='+idCita+'&opcion=BuscarCitaID',
+         url: 'custom/full_oper.php?idCita='+idCita+'&IdEmpresa='+IdEmpresa+'&opcion=BuscarCitaID',
          //data: JSON.stringify(objJson),
          headers: ajax_headers,
          contentType: "application/json; charset=utf-8",
@@ -510,7 +511,7 @@ function BuscarPacientePorId(idPaciente) {
     //var arr_paciente= {};url:
     console.log(
         "custom/full_oper.php?idPaciente=" +
-        idPaciente +
+        idPaciente +'&IdEmpresa='+IdEmpresa+
         "&opcion=BuscarPacientePorID"
     );
 
@@ -518,7 +519,7 @@ function BuscarPacientePorId(idPaciente) {
         type: "GET",
         url:
             "custom/full_oper.php?idPaciente=" +
-            idPaciente +
+            idPaciente +'&IdEmpresa='+IdEmpresa+
             "&opcion=BuscarPacientePorID",
         //data: JSON.stringify(objJson),
         headers: ajax_headers,
@@ -632,7 +633,7 @@ function showUser(cod_pac, type_id)
     $.ajax(
      {
          type: "GET",
-         url: 'custom/full_oper.php?id='+cod_pac+'&tipo_id='+type_id+'&opcion=BuscarPacientesSIOS',
+         url: 'custom/full_oper.php?id='+cod_pac+'&tipo_id='+type_id+'&IdEmpresa='+IdEmpresa+'&opcion=BuscarPacientesSIOS',
          //data: (objJson),
          //headers: ajax_headers,
          contentType: "application/json; charset=utf-8",
@@ -1124,7 +1125,7 @@ function MostrarListaSede(caso){
     $.ajax(
      {
          type: "GET",
-         url: 'custom/full_oper.php?cod_pac='+cod_pac+'&type_id='+type_id+'&primer_nombre='+primer_nombre+'&segundo_nombre='+segundo_nombre+'&primer_apellido='+primer_apellido+'&segundo_apellido='+segundo_apellido+'&fecha_nac_full='+fecha_nac_full+'&direccion='+direccion+'&telefono_residencia='+telefono_residencia+'&email='+email+'&telefono_celular='+telefono_celular+'&sexo='+sexo+'&opcion=CreatePaciente',
+         url: 'custom/full_oper.php?cod_pac='+cod_pac+'&type_id='+type_id+'&primer_nombre='+primer_nombre+'&segundo_nombre='+segundo_nombre+'&primer_apellido='+primer_apellido+'&segundo_apellido='+segundo_apellido+'&fecha_nac_full='+fecha_nac_full+'&direccion='+direccion+'&telefono_residencia='+telefono_residencia+'&email='+email+'&telefono_celular='+telefono_celular+'&sexo='+sexo+'&IdEmpresa='+IdEmpresa+'&opcion=CreatePaciente',
          //data: (objJson),
          //headers: ajax_headers,
          contentType: "application/json; charset=utf-8",
@@ -1218,7 +1219,7 @@ function MostrarListaSede(caso){
   $.ajax(
     {
         type: "GET",
-        url: 'custom/full_oper.php?opcion=ListarSedes',
+        url: 'custom/full_oper.php?opcion=ListarSedes&IdEmpresa='+IdEmpresa,
         //data: (objJson),
         //headers: ajax_headers,
         contentType: "application/json; charset=utf-8",
@@ -1504,12 +1505,12 @@ tipo_consulta=$('#tipo').val()
   //var strJSON=JSON.stringify('{"sCodigoEspecialidad":"389","sIdSede":"01","sIdPaciente":"9986","iTope":1,"bCitaEspecialista":0}');
   console.log('Aqui viene la sede');
   console.log(JSON.stringify(objJson));
-  console.log('custom/full_oper.php?especialidad='+tipo_consulta+'&IdSede='+IdSede+'&iIdPacienteSios='+iIdPacienteSios+'&bCitaEspecialista='+bCitaEspecialista+'&opcion=ListarPrestadores');
+  console.log('custom/full_oper.php?especialidad='+tipo_consulta+'&IdSede='+IdSede+'&iIdPacienteSios='+iIdPacienteSios+'&bCitaEspecialista='+bCitaEspecialista+'IdEmpresa='+IdEmpresa+'&opcion=ListarPrestadores');
     var selectPrestador='<option disabled="disabled" value="">    Nombre  - Fecha - Nro de Cupos </option>';
     $.ajax(
      {
          type: "GET",
-         url: 'custom/full_oper.php?especialidad='+tipo_consulta+'&IdSede='+IdSede+'&iIdPacienteSios='+iIdPacienteSios+'&bCitaEspecialista='+bCitaEspecialista+'&opcion=ListarPrestadores',
+         url: 'custom/full_oper.php?especialidad='+tipo_consulta+'&IdSede='+IdSede+'&iIdPacienteSios='+iIdPacienteSios+'&bCitaEspecialista='+bCitaEspecialista+'&IdEmpresa='+IdEmpresa+'&opcion=ListarPrestadores',
          //data: (objJson),
          //headers: ajax_headers,
          contentType: "application/json; charset=utf-8",
@@ -1683,12 +1684,12 @@ function Calendario(picked){
 
           //Consulta de cupos por prestador//
           //console.log('Consulta Prestador fecha: '+JSON.stringify(objJson));
-          console.log('custom/full_oper.php?sFecha='+sFecha+'&sCodigoEspecialidad='+tipo_consulta+'&sIdSede='+$('#sede_sios').val()+'&sIdPrestador='+arr_fecha_med[0]+'&opcion=BuscarTurnosPorFecha');
+          console.log('custom/full_oper.php?sFecha='+sFecha+'&sCodigoEspecialidad='+tipo_consulta+'&sIdSede='+$('#sede_sios').val()+'&sIdPrestador='+arr_fecha_med[0]+'&IdEmpresa='+IdEmpresa+'&opcion=BuscarTurnosPorFecha');
 
           $.ajax(
             {
                 type: "GET",
-                url: 'custom/full_oper.php?sFecha='+sFecha+'&sCodigoEspecialidad='+tipo_consulta+'&sIdSede='+$('#sede_sios').val()+'&sIdPrestador='+arr_fecha_med[0]+'&opcion=BuscarTurnosPorFecha',
+                url: 'custom/full_oper.php?sFecha='+sFecha+'&sCodigoEspecialidad='+tipo_consulta+'&sIdSede='+$('#sede_sios').val()+'&sIdPrestador='+arr_fecha_med[0]+'&IdEmpresa='+IdEmpresa+'&opcion=BuscarTurnosPorFecha',
                 //data: (objJson),
                 //headers: ajax_headers,
                 contentType: "application/json; charset=utf-8",
@@ -1833,12 +1834,13 @@ function isEmpty(str) {
 //MARIO - BUSCAR AFILIADO
 function getEstadoAfiliado(id, tipo_id)
 {
+
   console.log('CONSULTA AFLIACION ------->');
   //console.log('custom/full_oper.php?opcion=?id='+id+'&tipo_id='+tipo_id+'&opcion=right-validation');
   $.ajax(
     {
         type: "GET",
-        url: 'custom/full_oper.php?id='+id+'&tipo_id='+tipo_id+'&opcion=right-validation',
+        url: 'custom/full_oper.php?id='+id+'&tipo_id='+tipo_id+'&IdEmpresa='+IdEmpresa+'&opcion=right-validation',
         //data: (objJson),
         //headers: ajax_headers,
         contentType: "application/json; charset=utf-8",
@@ -2090,7 +2092,7 @@ function verHistorialCitas(idPaciente){
   $.ajax(
     {
        type: "POST",
-       url: 'custom/full_oper.php?idPaciente='+idPaciente+'&opcion=Historial',
+       url: 'custom/full_oper.php?idPaciente='+idPaciente+'&IdEmpresa='+IdEmpresa+'&opcion=Historial',
        data: JSON.stringify(objJson),
        headers: ajax_headers,
        contentType: "application/json; charset=utf-8",
@@ -2217,7 +2219,7 @@ function BuscarPacientes(identificacion, tipo_id){
   $.ajax(
     {
        type: "GET",
-       url: 'custom/full_oper.php?id='+identificacion+'&tipo_id='+tipo_id+'&opcion=BuscarPacientesSIOS',
+       url: 'custom/full_oper.php?id='+identificacion+'&tipo_id='+tipo_id+'&IdEmpresa='+IdEmpresa+'&opcion=BuscarPacientesSIOS',
        //data: JSON.stringify(objJson),
        headers: ajax_headers,
        contentType: "application/json; charset=utf-8",
@@ -2350,7 +2352,7 @@ function cancelarCita(id_cita){
     $.ajax(
       {
           type: "POST",
-          url:  'custom/full_oper.php?idCita='+id_cita+'&opcion=CancelarCitaID',
+          url:  'custom/full_oper.php?idCita='+id_cita+'&IdEmpresa='+IdEmpresa+'&opcion=CancelarCitaID',
           //data: JSON.stringify(objJson),
           //headers: ajax_headers,
           contentType: "application/json; charset=utf-8",
@@ -2497,7 +2499,7 @@ function ListarEspecialidad(){//document.getElementById("select").value = "defau
   $.ajax(
     {
         type: "GET",
-        url: 'custom/full_oper.php?opcion=ListarEspecialidades',
+        url: 'custom/full_oper.php?opcion=ListarEspecialidades&IdEmpresa='+IdEmpresa,
         //data: (objJson),
         //headers: ajax_headers,
         contentType: "application/json; charset=utf-8",
