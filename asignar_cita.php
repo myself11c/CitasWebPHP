@@ -230,7 +230,7 @@ Navbar
                 <input name="iIdPacienteSios" type="hidden" value="" id="iIdPacienteSios">
                 <input name="regimen" type="hidden" value="" id="regimen">
                 <input name="tipo" type="hidden" value="" id="tipo">
-                <input name="IdEmpresa" type="hidden" value="" id="IdEmpresa">
+                <input name="IdEmpresa" type="hidden" value="<?php echo $IdEmpresa?>" id="IdEmpresa">
             </form>
 
         </div>
