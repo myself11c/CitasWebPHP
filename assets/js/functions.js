@@ -602,7 +602,7 @@ function  listarAdministradoras(){
 
 /* Inicio de Modificacion software, CONEXION SIOS  */
 //Busqueda de paciente en BD 
-function showUser(cod_pac, type_id)
+function showUser(cod_pac, type_id, oPaciente)
 {
   //console.log('Consultando usuario en afiliados');
   //setTimeout(tipo_usuario=getEstadoAfiliado(idPaciente),10000);
@@ -662,14 +662,15 @@ function showUser(cod_pac, type_id)
 
           }
           if (estado =='404'){
-            var div_cod_pac='<label class="col-md-4 control-label" for="textinput">Identificacion</label>'+
+            createPaciente(oPaciente);
+            /*var div_cod_pac='<label class="col-md-4 control-label" for="textinput">Identificacion</label>'+
             '<div class="col-md-4">'+
               '<p class="form-control-static">'+cod_pac+'</p>'+
             '</div>';
             $('#inf_pac').html(fromularioPacienteNuevo);
             $('#div_cod_pac').html(div_cod_pac);
             $('#cod_pac').val(cod_pac);
-            $('#type_id').val(type_id);
+            $('#type_id').val(type_id);*/
           }
 
 
@@ -992,6 +993,99 @@ function ejecutarUpdate(objJson, swalWithBootstrapButtons){
         }
     });
 
+}
+function createPaciente(objPacJson){
+  console.log(objPacJson);
+  objPacJson.opcion = 'CreatePaciente';
+  console.log(objPacJson);
+
+  //objJson.push({'opcion':'CreatePaciente'})
+
+  //console.log ('custom/full_oper.php?cod_pac='+objJson.sNumeroIdentificacion+'&type_id='+objJson.sTipoIdentificacion+'&primer_nombre='+objJson.sPrimerNombre+'&segundo_nombre='+objJson.sSegundoNombre+'&primer_apellido='+objJson.sPrimerApellido+'&segundo_apellido='+objJson.sSegundoApellido+'&fecha_nac_full='+objJson.sFechaNacimiento+'&direccion="'+objJson.sDireccion+'"&telefono_residencia='+objJson.sTelefonoResidencia+'&email='+objJson.sCorreo+'&telefono_celular='+objJson.sTelefonoCelular+'&sexo='+objJson.sSexo+'&opcion=CreatePaciente');
+  //return 'Go';
+    $.ajax(
+     {
+         type: "POST",
+         url: 'custom/full_oper.php',//?cod_pac='+objJson.sNumeroIdentificacion+'&type_id='+objJson.sTipoIdentificacion+'&primer_nombre='+objJson.sPrimerNombre+'&segundo_nombre='+objJson.sSegundoNombre+'&primer_apellido='+objJson.sPrimerApellido+'&segundo_apellido='+objJson.sSegundoApellido+'&fecha_nac_full='+objJson.sFechaNacimiento+'&direccion='+objJson.sDireccion+'&telefono_residencia='+objJson.sTelefonoResidencia+'&email='+objJson.sCorreo+'&telefono_celular='+objJson.sTelefonoCelular+'&sexo='+objJson.sSexo+'&opcion=CreatePaciente',
+         data: {
+          cod_pac: objPacJson.sNumeroIdentificacion,
+          type_id: objPacJson.sTipoIdentificacion,
+          primer_nombre: objPacJson.sPrimerNombre,
+          segundo_nombre: objPacJson.sSegundoNombre,
+          primer_apellido: objPacJson.sPrimerApellido,
+          segundo_apellido: objPacJson.sSegundoApellido,
+          fecha_nac_full: objPacJson.sFechaNacimiento,
+          direccion: objPacJson.sDireccion,
+          telefono_residencia: objPacJson.sTelefonoResidencia,
+          email:objPacJson.sCorreo,
+          telefono_celular:objPacJson.sTelefonoCelular,
+          sexo:objPacJson.sSexo,
+          IdEmpresa:IdEmpresa,
+          opcion:'CreatePaciente',
+         },
+         //data: JSON.stringify(objPacJson),
+         //headers: ajax_headers,
+         //contentType: "application/json; charset=utf-8",
+         //dataType: "json",
+         crossDomain: true,
+         cache: false,
+        success: function (data) {
+          console.log((data));
+          var data=JSON.parse(data);
+          
+          //alert("data: " + JSON.stringify(data));
+          
+          $('#inf_pac').html(loader_div);
+          //$('#inf_pac').html('<img  style="margin: 0 auto" class="img-responsive text-center" src="https://sios1.caminosips.com/cime/imagenes/cargando.gif" />');
+          var estado= data.Estado;
+          var mensaje = data.Mensaje;
+    
+          var cadena='Referencia a objeto no establecida como instancia de un objeto.[crearTabla]';
+           mensaje=mensaje.replace(cadena, '');
+          if (estado =='200'){
+            $('#inf_pac').html('<h1>Usuario Registrado con exito</h>');
+            swal.fire(
+              '¡Usuario '+objPacJson.full_name+' registrado con exito!',
+              'Presione OK para continuar con el siguiente paso',
+              'success'
+            );
+            
+            $('#inf_pac').html(formulario_Sedes);
+            $('#sede_sios').html(selectSedes);
+            $('#prestadores_fecha').attr("disabled","disabled"); 
+            $('#singlebutton').hide();
+            iIdPacienteSios=data.Paciente.IdPaciente;
+            MostrarListaSede('Old');
+          }else{
+            swal.fire({
+              type: 'error',
+              title: 'Se ha producido un error',
+              text: 'No se pudo registrar el usuario, '+mensaje+'!',
+              //footer: '<a href="caminosips.com/faq">Por que tengo este problema?</a>'
+            });
+            $('#inf_pac').html(mensaje);
+            //$('#sede_sios').html(selectSedes);
+            ///$('#inf_pac').html(formulario_Sedes);
+
+            $('#iIdPacienteSios').val(IdPacienteSios);
+          }
+          
+
+
+          console.log('Estado '+ estado+ ' Mensaje '+ mensaje);
+          var ret = JSON.stringify(data);
+          //console.log(ret);
+          //var obj = JSON.parse(ret);   
+          return;
+
+        },
+
+         
+        error: function (xmlHttpRequest, textStatus, errorThrown) {
+          alert("error: " + xmlHttpRequest.responseText);
+        }
+     });
+     
 }
 
 //Funcion para Consultar sedes SIOS
@@ -1853,6 +1947,7 @@ function getEstadoAfiliado(id, tipo_id)
           var estado= data.estado;
           var mensaje = data.mensaje;
           var sRegimen = data.regimen;
+          oPaciente = data.paciente; 
 
           console.log('Estado '+ estado+ ' Mensaje '+ mensaje + 'Regimen ' + sRegimen);
           var ret = JSON.stringify(data);
@@ -1883,10 +1978,23 @@ function getEstadoAfiliado(id, tipo_id)
                 location.reload();
               }
             });
-          }else{
-            //var obj = JSON.parse(ret);   
+          }else if (estado=="201"){
+            swal.fire({
+              allowOutsideClick: false, 
+              type: 'warning',
+              title: 'Informacion',
+              html: 'Sr. Usuario. Usted no se encuentra registrado en la Base de informacion para la especialidad seleccionada, porfavor comuníquese a su EPS para que verifique su información',
+             
+            }).then((result) => {
+              if (result) {
+                location.reload();
+              }
+            });
+           }
+          else{
+            //var obj = JSON.parse(ret);  
             tipo_usuario=sRegimen;
-            showUser(document.getElementById('id_pac').value, document.getElementById('type_id').value);   
+            showUser(document.getElementById('id_pac').value, document.getElementById('type_id').value, oPaciente);   
           }
                 
 
