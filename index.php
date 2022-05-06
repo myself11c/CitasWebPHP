@@ -48,9 +48,9 @@ Navbar
             <div class="container">
                 <div class="row">
                     <div class="text-center w-100 mt-4 mb-0">
-                        <button type="button" onclick="asignar(<?php echo '\''.$tipoId.'\',\''.$nombretipoId.'\',\''.$identificacion.'\''; ?>)" class="btn bg-gradient-info btn-lg">Asignar citas</button>
+                        <button type="button" onclick="asignar(<?php echo '\''.$tipoId.'\',\''.$nombretipoId.'\',\''.$identificacion.'\',\''.$IdEmpresa.'\''; ?>)" class="btn bg-gradient-info btn-lg">Asignar citas</button>
 
-                        <button type="button" onclick="cancelar(<?php echo '\''.$tipoId.'\',\''.$nombretipoId.'\',\''.$identificacion.'\''; ?>)" class="btn bg-gradient-success btn-lg ">Verificar y cancelar citas</button>
+                        <button type="button" onclick="cancelar(<?php echo '\''.$tipoId.'\',\''.$nombretipoId.'\',\''.$identificacion.'\',\''.$IdEmpresa.'\''; ?>)" class="btn bg-gradient-success btn-lg ">Verificar y cancelar citas</button>
                     </div>
 
                     <!--<div class="col-md-6">
