@@ -1,19 +1,10 @@
 <?php
 ini_set('display_errors', 'Off');
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 
-/*$_SESSION['api_citas_url'] ='http://190.61.55.218:8023/apicitas/';
-
-$_SESSION['nit']='900592759';
-
-$_SESSION['usuario_mutual']='sios-hdsalud';
-
-$_SESSION['contraseña_mutual']='Hju8Ghj7Yhn0';
-
-$_SESSION['autorization_api_sios'] ='Y2FtaW5vc2lwczpCaHU4TmppOU1rbzA=';
-
-$_SESSION['rights_api_url'] ='https://validador-derechos.mutualser.com/validateRights/';
-
-$_SESSION['token_rights_api_url'] ='https://gcp-mutualser-keycloak-prod.appspot.com/auth/realms/right-validation/protocol/openid-connect/token';*/
 
 foreach($_POST as $nombre_campo => $valor){
      $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
@@ -171,9 +162,9 @@ function BuscarPacientesSIOS($id,$tipo_id)//Busca paciente por cedula con tipo d
 
     $find_paciente = callAPI('POST', $_SESSION['api_citas_url'].'pacientes/buscar', json_encode($data_array),'application/json; charset=utf-8','');
     $response = json_decode($find_paciente, true);
-    header('Content-type: text/javascript');
-    // header("Access-Control-Allow-Origin: *");
-    // header("Access-Control-Allow-Headers: *");
+    //header('Content-type: text/javascript');
+    
+
     if ($response['Estado'] == '200') {
         /*$data = $response['Paciente']['PrimerNombre'] .  ' ' . $response['Paciente']['SegundoNombre'] .  ' ' . $response['Paciente']['PrimerApellido'].  ' ' . $response['Paciente']['SegundoApellido'];
         $id_pacienteSios = $response['Paciente']['IdPaciente'];
