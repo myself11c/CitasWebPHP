@@ -114,9 +114,10 @@ function callAPI($method, $url, $data, $content_type, $token)
         ));
     }else if($content_type=='application/json; charset=utf-8'){
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Authorization: Basic "aGVlZHNhbHVkOkJodThOamk5TWtvMA=="',
+            'Authorization: Basic "'.$_SESSION['autorization_api_sios'].'"',
             'Content-Type:'. $content_type,
         ));
+        
     }else{
 
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
@@ -147,7 +148,6 @@ function callAPI($method, $url, $data, $content_type, $token)
             case 404:# No hay datos
                 break;
             case 500:# Ya hay datos
-                    echo 'Unexpected HTTP code: ', $http_code, "\n";
                 break;     
             default:
                 echo 'Unexpected HTTP code: ', $http_code, "\n";

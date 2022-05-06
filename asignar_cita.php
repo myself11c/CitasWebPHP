@@ -8,7 +8,7 @@ foreach($_POST as $nombre_campo => $valor){
 /*BORRAR EN PROD*/
 foreach($_GET as $nombre_campo => $valor){
     $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
-    eval($asignacion);
+   echo  eval($asignacion);
 }
 
 ?>

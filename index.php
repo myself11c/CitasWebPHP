@@ -180,26 +180,26 @@ Navbar
             e.preventDefault();
         });
     });
-    function asignar(tipoId,nombretipoId,identificacion){
+    function asignar(tipoId,nombretipoId,identificacion,IdEmpresa){
 
         let form = document.createElement('form');
         form.action = 'asignar_cita.php';
         form.method = 'POST';
 
-        form.innerHTML = '<input name="tipoId" value="'+tipoId+'">'+'<input name="nombretipoId" value="'+nombretipoId+'">'+'<input name="identificacion" value="'+identificacion+'">';
+        form.innerHTML = '<input name="tipoId" value="'+tipoId+'">'+'<input name="nombretipoId" value="'+nombretipoId+'">'+'<input name="identificacion" value="'+identificacion+'">'+'<input name="IdEmpresa" value="'+IdEmpresa+'">';
 
         // el formulario debe estar en el document para poder enviarlo
         document.body.append(form);
 
         form.submit();
     }
-    function cancelar(tipoId,nombretipoId,identificacion){
+    function cancelar(tipoId,nombretipoId,identificacion, IdEmpresa){
 
         let form = document.createElement('form');
         form.action = 'cancelar_verificar.php';
         form.method = 'POST';
 
-        form.innerHTML = '<input name="tipoId" value="'+tipoId+'">'+'<input name="nombretipoId" value="'+nombretipoId+'">'+'<input name="identificacion" value="'+identificacion+'">';
+        form.innerHTML = '<input name="tipoId" value="'+tipoId+'">'+'<input name="nombretipoId" value="'+nombretipoId+'">'+'<input name="identificacion" value="'+identificacion+'">'+'<input name="IdEmpresa" value="'+IdEmpresa+'">';
 
         // el formulario debe estar en el document para poder enviarlo
         document.body.append(form);
