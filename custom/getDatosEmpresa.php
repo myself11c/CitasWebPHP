@@ -28,7 +28,7 @@ header('Content-type: text/javascript');
 
 //echo $data['objConexiones'];
 //var_dump($data['empresas'][0]['objConexiones']);
-echo json_encode($data['empresas'][0], JSON_PRETTY_PRINT);
+//echo json_encode($data['empresas'][0], JSON_PRETTY_PRINT);
 
 
 

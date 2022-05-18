@@ -220,7 +220,7 @@ function ListarTurnosPrestadores( $sCodigoEspecialidad,  $id_pacienteSios, $sIdS
         "iTope" => "20",
         "bCitaEspecialista" => $especialista,
     );
-    var_dump($data_array);
+    //var_dump($data_array);
 
     $get_data = callAPI('POST', $_SESSION['api_citas_url'].'turnosprestadores/buscarporespecialidad', json_encode($data_array),'application/json; charset=utf-8','');
 
