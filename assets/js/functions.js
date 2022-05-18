@@ -2415,8 +2415,11 @@ function validar_fecha(fecha){
 
 
   if(hoy_.getTime() >= fecha_.getTime()){
+    console.log('No Mostrar Boton Cancelar');
     return false;
+
   }else{
+    console.log('No Mostrar Boton Cancelar');
     return true;
   }
 
