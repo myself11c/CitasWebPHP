@@ -209,7 +209,7 @@ function BuscarPacientesBD($id_usuario,$tipo_cita,$tipo_atencion)//Busca pacient
         echo 'ERROR';
     }
 }
-function ListarTurnosPrestadores( $sCodigoEspecialidad,  $id_pacienteSios, $sIdSede=null, $especialista="false"){
+function ListarTurnosPrestadores( $sCodigoEspecialidad,  $id_pacienteSios, $sIdSede=null, $especialista=false){
 
 
 
