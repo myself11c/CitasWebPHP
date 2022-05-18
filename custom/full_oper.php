@@ -30,7 +30,7 @@ switch ($opcion) {
          break;
 
     case "ListarPrestadores":
-        ListarTurnosPrestadores($especialidad,$IdSede, $iIdPacienteSios, $bCitaEspecialista);
+        ListarTurnosPrestadores($especialidad,$iIdPacienteSios,$IdSede,  $bCitaEspecialista);
         break;
 
     case "BuscarTurnosPorFecha":
@@ -218,9 +218,9 @@ function ListarTurnosPrestadores( $sCodigoEspecialidad,  $id_pacienteSios, $sIdS
         "sIdSede"         => $sIdSede,
         "sIdPaciente" => $id_pacienteSios,
         "iTope" => "20",
-        "bCitaEspecialista" => false,
+        "bCitaEspecialista" => $especialista,
     );
-    //var_dump($data_array);
+    var_dump($data_array);
 
     $get_data = callAPI('POST', $_SESSION['api_citas_url'].'turnosprestadores/buscarporespecialidad', json_encode($data_array),'application/json; charset=utf-8','');
 
