@@ -368,8 +368,9 @@ function verHistorial($idPaciente){
 
     $data_array =  array(
         "sIdPaciente"   => $idPaciente,
-        "bVigentes" => false
+        "bVigente" => 0
     );
+    //var_dump($data_array);
     $get_data = callAPI('POST', $_SESSION['api_citas_url'].'citas/historial', json_encode($data_array),'application/json; charset=utf-8','');
 
     $response = json_decode($get_data, true);
