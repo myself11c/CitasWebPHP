@@ -211,7 +211,11 @@ function BuscarPacientesBD($id_usuario,$tipo_cita,$tipo_atencion)//Busca pacient
 }
 function ListarTurnosPrestadores( $sCodigoEspecialidad,  $id_pacienteSios, $sIdSede=null, $especialista=false){
 
-
+    If ($especialista==0){
+        $especialista=false;
+    }else{
+        $especialista=true;
+    }
 
     $data_array =  array(
         "sCodigoEspecialidad"        => $sCodigoEspecialidad,
