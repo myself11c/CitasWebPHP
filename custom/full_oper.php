@@ -367,7 +367,8 @@ function verHistorial($idPaciente){
     /*{"ListaCitas":[],"Cita":{"iIdCita":2532081,"sFechaCita":"11\/11\/2020 16:30:00","sSede":"Consolata Caminos IPS SAS","sPrestador":"JAIME CARLOS ROCA BLANCO","sEspecialidad":"MEDICINA GENERAL TELEMEDICINA","sProgramaPyP":"","sCancelada":"NO","sAtendido":"-","sMultado":"-","sAutorizacion":"","sUsuarioRegistro":"Api","sUsuarioCancelacion":"","sConsulta":"TELEMEDICINA CONSULTA DE PRIMERA VEZ POR MEDICINA GENERAL","sHora":"","sCodigoEspecialidad":"","sMensajeConfirmacion":"","sFechaDeseada":"","sIdPaciente":"","bVigente":false,"sConsecutivoCita":"","sConsultorio":"","sIdAdministradora":"","sRegimen":"","iIdTurnos":0,"bCitaEspecializada":false,"sTipoAtencion":"","gsRutaReporte":"C:\\inetpub\\wwwroot\\ApiCitas\\Informes\\"},*/
 
     $data_array =  array(
-        "sIdPaciente"   => $idPaciente
+        "sIdPaciente"   => $idPaciente,
+        "bVigentes" => false
     );
     $get_data = callAPI('POST', $_SESSION['api_citas_url'].'citas/historial', json_encode($data_array),'application/json; charset=utf-8','');
 
