@@ -2231,7 +2231,7 @@ function verHistorialCitas(idPaciente){
                         'CANCELAR'+
                         '<i class="fas fa-arrow-right ms-1" aria-hidden="true"></i>';
                 }
-                 htmlCard= '<div class="col-md-12 mb-4">'+
+                 htmlCard+= '<div class="col-md-12 mb-4">'+
                     '<div class="card">'+
                     '<div class="text-center pt-4">'+
                     '<span class="badge rounded-pill bg-light text-dark">Fecha Cita</span>'+
@@ -2323,7 +2323,7 @@ function BuscarPacientes(identificacion, tipo_id){
     objJson.sTipoIdentificacion = tipo_id;
     objJson.sNumeroIdentificacion = identificacion;
   jQuery.support.cors = true;
-  
+
   //console.log('Entrando a Buscar pacientes: identificacion- '+identificacion+ 'Tipo de id -'+ tipo_id);
   $.ajax(
     {
