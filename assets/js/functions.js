@@ -2223,10 +2223,13 @@ function verHistorialCitas(idPaciente){
             if(mostrar==true){
               var cancelar;
               cancelar=validar_fecha(data.ListaCitas[i].Fecha);
+              console.log('Cancelar: ' +cancelar);
               var id_cita=data.ListaCitas[i].IdCita;
               var dcancelada=data.ListaCitas[i].Cancelada;
-
+              console.log('Cancelada: '+dcancelada);
+              var htmlCancelar='';
                 if(cancelar==true && dcancelada== 'NO'){
+                  console.log('Se puede cancelar.')
                     htmlCancelar='<a onclick="cancelarCita('+id_cita+')" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">'+
                         'CANCELAR'+
                         '<i class="fas fa-arrow-right ms-1" aria-hidden="true"></i>';
