@@ -2323,7 +2323,8 @@ function BuscarPacientes(identificacion, tipo_id){
     objJson.sTipoIdentificacion = tipo_id;
     objJson.sNumeroIdentificacion = identificacion;
   jQuery.support.cors = true;
-  console.log('Entrando a Buscar pacientes: identificacion- '+identificacion+ 'Tipo de id -'+ tipo_id);
+  
+  //console.log('Entrando a Buscar pacientes: identificacion- '+identificacion+ 'Tipo de id -'+ tipo_id);
   $.ajax(
     {
        type: "GET",

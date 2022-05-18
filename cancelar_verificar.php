@@ -210,6 +210,8 @@ Navbar
                     <input name="iIdPacienteSios" type="hidden" value="" id="iIdPacienteSios">
                     <input name="regimen" type="hidden" value="" id="regimen">
                     <input name="tipo" type="hidden" value="" id="tipo">
+                    <input name="IdEmpresa" type="hidden" value="<?php echo $IdEmpresa?>" id="IdEmpresa">
+
                 </form>
 
             </div>
@@ -217,6 +219,7 @@ Navbar
                 <input name="iIdPacienteImprimir" id="iIdPacienteImprimir" type="hidden" value="">
                 <input name="idCitaAsignada" id="idCitaAsignada" type="hidden" value="">
                 <input name="puertoWeb" id="puertoWeb" type="hidden" value="">
+                <input name="IdEmpresa" type="hidden" value="<?php echo $IdEmpresa?>" id="IdEmpresa">
 
             </form>
 </footer>
