@@ -1,9 +1,9 @@
 <?php
 ini_set('display_errors', 'Off');
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-header("Allow: GET, POST, OPTIONS, PUT, DELETE");
+// header('Access-Control-Allow-Origin: *');
+// header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+// header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+// header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 
 
 foreach($_POST as $nombre_campo => $valor){
@@ -154,10 +154,9 @@ function callAPI($method, $url, $data, $content_type, $token)
 
 function BuscarPacientesSIOS($id,$tipo_id)//Busca paciente por cedula con tipo de id
 {
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-header("Allow: GET, POST, OPTIONS, PUT, DELETE");
+    header('Content-type: text/javascript');
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: *");
     $data_array =  array(
         "sNumeroIdentificacion"        => $id,
         "sTipoIdentificacion"         => $tipo_id,
@@ -422,6 +421,9 @@ function getToken(){
 
 }
 function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
+    header('Content-type: text/javascript');
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: *");
     // echo $sTipoIdentificacion;
     $data_array = (
     array(
