@@ -22,9 +22,7 @@ foreach ($_POST as $nombre => $valor ){
 
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-      <script src="js/jqbtk.min.js"></script>
 
-      <script src="js/moment.js"></script>
     <!-- Nucleo Icons -->
     <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="assets/css/nucleo-svg.css" rel="stylesheet" />
@@ -53,7 +51,7 @@ foreach ($_POST as $nombre => $valor ){
 
       <script src="assets/js/functions.js?v=<?php echo rand()?>"></script>
 	  
-<title>imprimir_pagina</title>
+<title>Imprimir Cita</title>
 
 </head>
 <body>
@@ -141,13 +139,13 @@ $dia2=date("d");
     </h1>
     <br/>
     <a href="javascript:print();"><b>Imprimir</b></a> el comprobante de cita<br/>
-    <a href="javascript:window.close();"><0b>Cerrar</0b></a></div>
+    <a href="javascript:window.close();"><b>Cerrar</b></a></div>
     </div>
 
 
 <?php
-echo '<script> BuscarCitasPorId('.$idCitaAsignada.','.$IdEmpresa.');';
-echo 'BuscarPacientePorId('.$iIdPacienteImprimir.','.$IdEmpresa.');</script>';
+echo '<script> BuscarCitasPorId('.$idCitaAsignada.',"'.$IdEmpresa.'");';
+echo 'BuscarPacientePorId('.$iIdPacienteImprimir.',"'.$IdEmpresa.'");</script>';
 ?>
 </body>
 </html>
