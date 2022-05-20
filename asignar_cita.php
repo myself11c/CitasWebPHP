@@ -237,7 +237,7 @@ Navbar
         <form name="forma" action="" method="POST" id="forma1">
             <input name="iIdPacienteImprimir" id="iIdPacienteImprimir" type="hidden" value="">
             <input name="idCitaAsignada" id="idCitaAsignada" type="hidden" value="">
-            <input name="puertoWeb" id="puertoWeb" type="hidden" value="">
+            <input name="IdEmpresa" type="hidden" value="<?php echo $IdEmpresa?>" id="IdEmpresa">
 
         </form>
 </footer>
