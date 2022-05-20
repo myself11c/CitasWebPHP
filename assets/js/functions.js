@@ -2216,11 +2216,11 @@ function verHistorialCitas(idPaciente){
            console.log(data);
          if (estado =='200'){
              var htmlCancelar='';
-             var htmlCard;
+             var htmlCard='';
           for (var i = 0, len = data.ListaCitas.length; i < len; i++) {
             //aqui
             var mostrar=validar_fecha_cancelar(data.ListaCitas[i].Fecha);
-            console.log(data);
+            //console.log(data);
             mostrar=true;
             if(mostrar==true){
               var cancelar;
@@ -2229,7 +2229,7 @@ function verHistorialCitas(idPaciente){
               var id_cita=data.ListaCitas[i].IdCita;
               var dcancelada=data.ListaCitas[i].Cancelada;
               console.log('Cancelada: '+dcancelada);
-              var htmlCancelar='';
+              htmlCancelar='';
                 if(cancelar==true && dcancelada== 'NO'){
                   console.log('Se puede cancelar.')
                     htmlCancelar='<a onclick="cancelarCita('+id_cita+')" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">'+
