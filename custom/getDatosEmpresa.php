@@ -28,7 +28,7 @@ header('Content-type: text/javascript');
 
 //echo $data['objConexiones'];
 //var_dump($data['empresas'][0]['objConexiones']);
-//echo json_encode($data['empresas'][0], JSON_PRETTY_PRINT);
+echo json_encode($data['empresas'][0]['ImgBanner']['Ruta'], JSON_PRETTY_PRINT);
 
 
 
@@ -51,6 +51,8 @@ $_SESSION['token_rights_api_url'] =$data['empresas'][0]['objConexiones']['_SESSI
 $_SESSION['nombre_empresa']=$data['empresas'][0]['Nombre'];
 
 $_SESSION['Municipio']=$data['empresas'][0]['Municipio'];
+
+$_SESSION['Logo']=$data['empresas'][0]['ImgBanner']['Ruta'];
 
 function callAPI_DataOf($method, $url, $data, $content_type, $token)
 {

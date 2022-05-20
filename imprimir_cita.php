@@ -60,7 +60,8 @@ foreach ($_POST as $nombre => $valor ){
 
 <div align="center">
 <h1>Informacion de la Cita</h1>
-<!--<img src="images/heedsalud-logo.png" width="180" height="70">-->
+
+<div id="logo"></div>
 <table style="border:1px #0033ff solid" width="300" cellspacing="5">
     <tr style="border:1px #0033ff solid">
       <td style="border:1px #0033ff solid"><b>Nombres y Apellidos</b></td>
@@ -145,8 +146,8 @@ $dia2=date("d");
 
 
 <?php
-echo '<script> BuscarCitasPorId('.$idCitaAsignada.');';
-echo 'BuscarPacientePorId('.$iIdPacienteImprimir.');</script>';
+echo '<script> BuscarCitasPorId('.$idCitaAsignada.','.$IdEmpresa.');';
+echo 'BuscarPacientePorId('.$iIdPacienteImprimir.','.$IdEmpresa.');</script>';
 ?>
 </body>
 </html>

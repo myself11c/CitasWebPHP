@@ -276,7 +276,7 @@ function BuscarPacientePorID($id_usuario)//Busca paciente por cedula con tipo de
     $response = json_decode($find_paciente, true);
 
     if ($response['Estado'] == '200') {
-
+        $response['Paciente']['Logo']=$_SESSION['Logo'];
         echo json_encode($response);
 
 

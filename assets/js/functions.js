@@ -468,7 +468,7 @@ En cumplimiento al Artículos 10 del Decreto 1377 de 2013, solicitamos su autori
   }
 });
 }
-function BuscarCitasPorId(idCita){
+function BuscarCitasPorId(idCita,IdEmpresa){
   var arr_cita = {};
     $.ajax(
       {
@@ -507,7 +507,7 @@ function BuscarCitasPorId(idCita){
          }
       });
 }
-function BuscarPacientePorId(idPaciente) {
+function BuscarPacientePorId(idPaciente, IdEmpresa) {
     //var arr_paciente= {};url:
     console.log(
         "custom/full_oper.php?idPaciente=" +
@@ -548,6 +548,8 @@ function BuscarPacientePorId(idPaciente) {
                     data.Paciente.SegundoApellido +
                     "</b>"
                 );
+                $("#logo").html(
+                '<img src="'+data.Paciente.Logo+'" width="180" height="70">');
             }
             if (estado == "500") {
                 // arr_paciente= {};
