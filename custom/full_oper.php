@@ -154,7 +154,10 @@ function callAPI($method, $url, $data, $content_type, $token)
 
 function BuscarPacientesSIOS($id,$tipo_id)//Busca paciente por cedula con tipo de id
 {
-
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+header("Allow: GET, POST, OPTIONS, PUT, DELETE");
     $data_array =  array(
         "sNumeroIdentificacion"        => $id,
         "sTipoIdentificacion"         => $tipo_id,
@@ -187,28 +190,7 @@ function BuscarPacientesSIOS($id,$tipo_id)//Busca paciente por cedula con tipo d
         //echo $response['Mensaje'];
     }
 }
-function BuscarPacientesBD($id_usuario,$tipo_cita,$tipo_atencion)//Busca paciente por cedula con tipo de id
-{
-    if($tipo_atencion=="1"){
-        //Teleconsulta
-        $url="http://sios1.caminosips.com/telemed/custom/operaciones.php?q=".$id_usuario."&tipo_cita=".$tipo_cita;
 
-    }elseif($tipo_atencion=="2"){
-        $url="http://sios1.caminosips.com/citasweb/custom/operaciones.php?q=".$id_usuario."&tipo_cita=".$tipo_cita;
-    }
-
-    $find_paciente = callAPI('GET', $url, '' );
-    //saveLog("Buscar Regimen Pacientes: ".$find_paciente);
-    //$response = json_decode($find_paciente, true);
-    if ($find_paciente!='ERROR' ) {
-
-        echo $find_paciente;
-        // echo ($data.' - '.$id_pacienteSios);
-
-    } else {
-        echo 'ERROR';
-    }
-}
 function ListarTurnosPrestadores( $sCodigoEspecialidad,  $id_pacienteSios, $sIdSede=null, $especialista=false){
 
     If ($especialista==0){
