@@ -120,6 +120,8 @@ function callAPI($method, $url, $data, $content_type, $token)
 
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0); 
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
     // EXECUTE:
     $result = curl_exec($curl);
     // Comprueba el código de estado HTTP
@@ -458,7 +460,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
     $get_data = json_decode($get_data, true);
     //Notify the browser about the type of the file using header function
     header('Content-type: text/javascript');
-    //echo json_encode($get_data, JSON_PRETTY_PRINT);
+    echo json_encode($get_data, JSON_PRETTY_PRINT);
 
     //Var_dump($get_data['entry'][0]['resource']['managingOrganizationResource']['id']) ;
     if(($get_data['entry'][0]['resource']['id']!='400-04')&&($get_data['entry'][0]['resource']['id']!='500-01')&&($get_data['entry'][0]['resource']['id']!='400-03')&&($get_data['entry'][0]['resource']['id']!='500')){
