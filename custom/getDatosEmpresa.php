@@ -1,6 +1,6 @@
 <?php
-
-/*$_SESSION['api_citas_url'] ='http://190.61.55.218:8023/apicitas/';
+/*
+$_SESSION['api_citas_url'] ='http://190.242.54.244:8023/apicitas/';
 
 $_SESSION['nit']='900592759';
 
@@ -12,8 +12,8 @@ $_SESSION['autorization_api_sios'] ='Y2FtaW5vc2lwczpCaHU4TmppOU1rbzA=';
 
 $_SESSION['rights_api_url'] ='https://validador-derechos.mutualser.com/validateRights/';
 
-$_SESSION['token_rights_api_url'] ='https://gcp-mutualser-keycloak-prod.appspot.com/auth/realms/right-validation/protocol/openid-connect/token';*/
-
+$_SESSION['token_rights_api_url'] ='https://gcp-mutualser-keycloak-prod.appspot.com/auth/realms/right-validation/protocol/openid-connect/token';
+*/
 if(!isset($IdEmpresa)){
 $IdEmpresa='6106cf13d71dc264a783923d';
 }
@@ -32,7 +32,7 @@ header('Content-type: text/javascript');
 
 
 
-/* Seteo de Variables de la parametrizacion */
+// Seteo de Variables de la parametrizacion 
 
 $_SESSION['api_citas_url'] =$data['empresas'][0]['objConexiones']['api_citas_url'];
 

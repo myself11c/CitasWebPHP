@@ -460,7 +460,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
     $get_data = json_decode($get_data, true);
     //Notify the browser about the type of the file using header function
     header('Content-type: text/javascript');
-    echo json_encode($get_data, JSON_PRETTY_PRINT);
+    //echo json_encode($get_data, JSON_PRETTY_PRINT);
 
     //Var_dump($get_data['entry'][0]['resource']['managingOrganizationResource']['id']) ;
     if(($get_data['entry'][0]['resource']['id']!='400-04')&&($get_data['entry'][0]['resource']['id']!='500-01')&&($get_data['entry'][0]['resource']['id']!='400-03')&&($get_data['entry'][0]['resource']['id']!='500')){
