@@ -9,6 +9,16 @@ foreach($_POST as $nombre_campo => $valor){
 foreach($_GET as $nombre_campo => $valor){
     $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
    echo  eval($asignacion);
+
+}
+if(!isset($IdEmpresa)){
+    $IdEmpresa='6136741c4cf579ece936db68';
+}
+if(!isset($tipoId)){
+    $tipoId='CC';
+}
+if(!isset($identificacion)){
+    $identificacion='45544444';
 }
 
 ?>
@@ -21,7 +31,7 @@ foreach($_GET as $nombre_campo => $valor){
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="assets/img/favicon.png">
     <title>
-        Autogestion - HeedSalud del Caribe S.A.S.
+        Autogestion de Citas
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />

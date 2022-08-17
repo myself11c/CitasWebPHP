@@ -15,7 +15,10 @@ $_SESSION['rights_api_url'] ='https://validador-derechos.mutualser.com/validateR
 $_SESSION['token_rights_api_url'] ='https://gcp-mutualser-keycloak-prod.appspot.com/auth/realms/right-validation/protocol/openid-connect/token';
 */
 if(!isset($IdEmpresa)){
-$IdEmpresa='6106cf13d71dc264a783923d';
+//$IdEmpresa='6136741c4cf579ece936db68';//Caminos
+$IdEmpresa='5cac12055d717e661ea7b95b';//UCC
+
+
 }
 
 $data=callAPI_DataOf('GET','http://apioficinavirtualreactjsdev-env.eba-e52atg8q.us-west-2.elasticbeanstalk.com/empresas/IdEmpresa/'.$IdEmpresa, '','application/json; charset=utf-8;text','');
@@ -26,7 +29,7 @@ $data = json_decode($data, true);
     //Notify the browser about the type of the file using header function
 header('Content-type: text/javascript');
 
-//echo $data['objConexiones'];
+//var_dump($data); //$data['objConexiones'];
 //var_dump($data['empresas'][0]['objConexiones']);
 //echo json_encode($data['empresas'][0]['ImgBanner']['Ruta'], JSON_PRETTY_PRINT);
 

@@ -18,6 +18,7 @@ var TipoAtencion='MG';
 var administradraSubsidiado= '001';
 var tipo_temp;
 var sRegimen;
+var cod_adm;
 var botonSedes = '<button type="button" id="singlebutton" name="singlebutton" onclick="MostrarListaSede(\'."\'no\'".\')" class="btn bg-gradient-info btn-lg active me-2">Siguiente</button>';
 var fromularioPacienteNuevo= '<div id="datos_citas">'+
 '<form class="form-horizontal">'+
@@ -229,37 +230,6 @@ $.datepicker.setDefaults($.datepicker.regional['es']);
 
   var IdEmpresa=$('#IdEmpresa').val();
 
-function asignaCita(id_obj,id_hora,id_medico,val_hora,val_medico,obj_nombre,id_nomb_med,id_email,id_telefono,id_direccion){
-  var obj = document.getElementById(id_obj);
-  var hora = document.getElementById(id_hora);
-  var medico = document.getElementById(id_medico);  
-  var nomb_med = document.getElementById(id_nomb_med);
-  var telefono = document.getElementById(id_telefono);
-  var email = document.getElementById(id_email);  
-  var direccion = document.getElementById(id_direccion);
-
-  
-  if (obj.title == 'Disp'){
-    //buscar otros elementos que esten seleccionados
-    // y resetear su valor
-    if (obj.innerHTML != "X") {
-      vaciarEstados();
-      obj.innerHTML = "X";
-      hora.value =val_hora;
-      medico.value = val_medico;
-      $('#hora_cita_d').html(val_hora);
-      
-      //Aqui va Correo, Email, Telefono
-      nomb_med.innerHTML = obj_nombre[val_medico];
-      }
-    else {
-      obj.innerHTML = "&nbsp;";
-      hora.value ='';
-      medico.value = '';
-      nomb_med.innerHTML = '';
-      }
-    }
-  }
 
 function wait(ms){
   var start = new Date().getTime();
@@ -267,6 +237,42 @@ function wait(ms){
   while(end < start + ms) {
     end = new Date().getTime();
  }
+}
+
+function consultaridAdm(codAdministradora){
+
+  $.ajax(
+    {
+        type: "GET",
+        url: 'custom/full_oper.php?codAdm='+codAdministradora+'&opcion=ListarAdministradoras',
+        //data: (objJson),
+        //headers: ajax_headers,
+        contentType: "application/json; charset=utf-8",
+        //dataType: "json",
+        crossDomain: true,
+        cache: false,
+       success: function (data) {
+           var data=JSON.parse(data);
+         var estado= data.Estado;
+         var mensaje = data.Mensaje;
+         console.log(data);
+         if (estado =='200'){
+          alert(JSON.stringify(data.ListaAdministradoras[0].Codigo));
+          var codigoAdm =data.ListaAdministradoras[0].Codigo;
+          
+          return codigoAdm;
+         }
+         if (estado =='500'){
+           return mensaje;
+         }         
+
+       },
+
+       error: function (xmlHttpRequest, textStatus, errorThrown) {
+         alert("error: " + xmlHttpRequest.responseText);
+       }
+    });
+
 }
 
 //Ventana de confirmacion de citas -- SWALERT(\''+data.ListaTurnos[i].sHora+','+sede_label+','+fecha_labelSWAL+'\')
@@ -313,22 +319,12 @@ swal.fire({
 }).then((Confirmar) => {
   //var listaAdministradoras= listarAdministradoras();
   //console.log(listaAdministradoras);
-  if (tipo_usuario=='S' || tipo_usuario=='EV'){
-    //1 SUBISIADO
-    //2 CONTRIBUTIVO
-    //3 EVENTO
-    //EV evento #tipoAtencion MG medicina General ES Especialista 
-    //
-    IdAdministradora='8';
-  }else{
-    //
-    IdAdministradora='9';
-  }
+  
   if (Confirmar.value) {
     //AJAX insertar cita -->
     var objJson = new Object();
       objJson.sIdPaciente = ''+iIdPacienteSios+'';
-      objJson.sIdAdministradora = IdAdministradora;
+      //objJson.sIdAdministradora = IdAdministradora;
       objJson.iIdTurnos = idTurno;
       objJson.sFechaCita = fecha_sios+' '+hora_cita;
       if(tipo_usuario=='EV'){
@@ -337,6 +333,10 @@ swal.fire({
         
       }
       objJson.sRegimen = tipo_usuario;
+      objJson.scodAdm = cod_adm;
+      
+      var idAdm=consultaridAdm(cod_adm);
+      console.log('Post idAdm : '+idAdm);
       console.log("REGIMEN ANTES DE INSERTAR"+ objJson.sRegimen);
       objJson.bCitaEspecializada = bCitaEspecialista;
       objJson.sTipoAtencion = TipoAtencion;
@@ -346,12 +346,12 @@ swal.fire({
     
     console.log(JSON.stringify(objJson));
 
-    console.log('custom/full_oper.php?idPacientesSios='+iIdPacienteSios+'&IdAdministradora='+IdAdministradora+'&idTurno='+idTurno+ '&sFechaCita='+objJson.sFechaCita+'&sRegimen='+tipo_usuario+'&TipoAtencion='+TipoAtencion+'&IdEmpresa='+IdEmpresa+'&bCitaEspecialista=0&opcion=InsertarCita');
+    console.log('custom/full_oper.php?idPacientesSios='+iIdPacienteSios+'&IdAdministradora='+idAdm+'&idTurno='+idTurno+ '&sFechaCita='+objJson.sFechaCita+'&sRegimen='+tipo_usuario+'&TipoAtencion='+TipoAtencion+'&IdEmpresa='+IdEmpresa+'&bCitaEspecialista=0&opcion=InsertarCita');
 
     $.ajax(
       {
           type: "GET",
-          url: 'custom/full_oper.php?idPacientesSios='+iIdPacienteSios+'&IdAdministradora='+IdAdministradora+'&idTurno='+idTurno+ '&sFechaCita='+objJson.sFechaCita+'&sRegimen='+tipo_usuario+'&TipoAtencion=MG'+'&IdEmpresa='+IdEmpresa+'&bCitaEspecialista=false&opcion=InsertarCita',
+          url: 'custom/full_oper.php?idPacientesSios='+iIdPacienteSios+'&IdAdministradora='+idAdm+'&idTurno='+idTurno+ '&sFechaCita='+objJson.sFechaCita+'&sRegimen='+tipo_usuario+'&TipoAtencion=MG'+'&IdEmpresa='+IdEmpresa+'&bCitaEspecialista=false&opcion=InsertarCita',
           //data: (objJson),
           //headers: ajax_headers,
           contentType: "application/json; charset=utf-8",
@@ -1945,13 +1945,15 @@ function getEstadoAfiliado(id, tipo_id)
         cache: false,
        success: function (data) {
           var data=JSON.parse(data);
-          //console.log(data);
+          
           var estado= data.estado;
           var mensaje = data.mensaje;
           var sRegimen = data.regimen;
+          var scodAdm = data.codAdm;
+          console.log('CodADM '+scodAdm);
           oPaciente = data.paciente; 
 
-          console.log('Estado '+ estado+ ' Mensaje '+ mensaje + 'Regimen ' + sRegimen);
+          console.log('Estado '+ estado+ ' Mensaje '+ mensaje + 'Regimen ' + sRegimen+ 'CodAdm ' + scodAdm);
           var ret = JSON.stringify(data);
           console.log(ret);
           if(estado=="400-04"){
@@ -1996,6 +1998,7 @@ function getEstadoAfiliado(id, tipo_id)
           else{
             //var obj = JSON.parse(ret);  
             tipo_usuario=sRegimen;
+            cod_adm=scodAdm;
             showUser(document.getElementById('id_pac').value, document.getElementById('type_id').value, oPaciente);   
           }
                 
@@ -2613,6 +2616,10 @@ function getToken(){
 function ListarEspecialidad(){//document.getElementById("select").value = "defaultValue";
 	selectEspecialidades='<option value="null"></option>';
   $('#messages').html(loader_div);
+  if(IdEmpresa){
+    console.log('Id Empresa '+IdEmpresa);
+
+  }
   $.ajax(
     {
         type: "GET",
@@ -2624,7 +2631,7 @@ function ListarEspecialidad(){//document.getElementById("select").value = "defau
         crossDomain: true,
         cache: false,
        success: function (data) {
-           //console.log(JSON.stringify(data));
+           console.log(JSON.stringify(data));
            var data=JSON.parse(data);
            //console.log(JSON.stringify(data));
            var estado= data.Estado;

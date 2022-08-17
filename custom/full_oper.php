@@ -15,7 +15,9 @@ foreach($_GET as $nombre_campo => $valor){
       $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
     eval($asignacion);
 }
+
 require_once 'getDatosEmpresa.php';
+
 switch ($opcion) {
     case "right-validation":
         getRight($id,$tipo_id);
@@ -65,6 +67,10 @@ switch ($opcion) {
         verHistorial($idPaciente);
         break;
 
+    case "ListarAdministradoras":
+        listarAdministradoras($codAdm);
+        break;
+
     case "test":
         test();
         break;
@@ -94,6 +100,7 @@ function callAPI($method, $url, $data, $content_type, $token)
         default:
             if ($data)
                 $url = sprintf("%s?%s", $url, http_build_query($data));
+                //echo $url."\n";
     }
 
     // OPTIONS:
@@ -117,13 +124,14 @@ function callAPI($method, $url, $data, $content_type, $token)
         ));
 
     }
-
+    
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0); 
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
     // EXECUTE:
-    $result = curl_exec($curl);
+    
+    var_dump($result = curl_exec($curl));
     // Comprueba el código de estado HTTP
     if(curl_errno($curl))
     {
@@ -460,7 +468,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
     $get_data = json_decode($get_data, true);
     //Notify the browser about the type of the file using header function
     header('Content-type: text/javascript');
-    //echo json_encode($get_data, JSON_PRETTY_PRINT);
+    echo json_encode($get_data, JSON_PRETTY_PRINT);die();
 
     //Var_dump($get_data['entry'][0]['resource']['managingOrganizationResource']['id']) ;
     if(($get_data['entry'][0]['resource']['id']!='400-04')&&($get_data['entry'][0]['resource']['id']!='500-01')&&($get_data['entry'][0]['resource']['id']!='400-03')&&($get_data['entry'][0]['resource']['id']!='500')){
@@ -535,9 +543,15 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
             $url = $valor['url'];
 
             //mutualSER\/hl7\/patient\/afilliateStatus
+            //entityCode
+
+            if($url == 'mutualSER/hl7/patient/entityCode'){
+                $codAdm=  $valor['valueCoding']['code'];
+
+            }
 
             if($url == 'mutualSER/hl7/patient/healthModality'){
-                $regimen=  $valor['valueCoding']['code'];
+                 $regimen=  $valor['valueCoding']['code'];
 
             }
             if($url == 'mutualSER/hl7/patient/afilliateStatus'){
@@ -565,20 +579,20 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
         if($ips_ab==$_SESSION['nit'] && $estado_afiliado=='ACTIVO'){//Nit de empresa donde se atendera
             
 
-            $res=  array( "estado"=>'200', "mensaje" => "Encontrado para la IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,  "ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'Capita+PGP','programa' => $programa, 'paciente'=> $data_array2);
+            $res=  array( "estado"=>'200', "mensaje" => "Encontrado para la IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,  "ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'Capita+PGP','programa' => $programa, 'paciente'=> $data_array2, 'codAdm'=> $codAdm);
 
 
         }else {
             //echo $_SESSION['Municipio'];
             if($ciudad==$_SESSION['Municipio']){
-                $res=  array("estado"=>'200', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'EV', 'programa' => $programa, 'paciente'=> $data_array2);
+                $res=  array("estado"=>'200', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'EV', 'programa' => $programa, 'paciente'=> $data_array2, 'codAdm'=> $codAdm);
             }
-            $res=  array("estado"=>'201', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'PGP', 'programa' => $programa, 'empresa'=> $_SESSION['nombre_empresa'], 'paciente'=> $data_array2);
+            $res=  array("estado"=>'200', "mensaje" => "Encontrado en otra IPS", "estado_afiliado"=>$estado_afiliado, "ips_id"=> $ips_ab,"ips_name"=> $ips_ab_Name, 'regimen'=> $regimen, 'tipo'=> 'PGP', 'programa' => $programa, 'empresa'=> $_SESSION['nombre_empresa'], 'paciente'=> $data_array2, 'codAdm'=> $codAdm);
         }
         echo json_encode($res);//CAMBIO
 
     }else{
-        //var_dump($get_data);die();
+        var_dump($get_data);die();
         $data_array = (
         array(
             "estado" => $get_data['entry'][0]['resource']['id'],
@@ -615,6 +629,23 @@ function ListarEspecialidades(){
     $ListarEsp = callAPI('GET', $_SESSION['api_citas_url'].'especialidades/listar', '','application/json; charset=utf-8','');
     $response = json_decode($ListarEsp, true);
     //var_dump($ListarEsp);die();
+    if ($response['Estado'] == '200') {
+        
+        echo json_encode($response);
+
+
+    } else {
+        
+        echo json_encode($response);
+       
+    }
+}
+
+function listarAdministradoras($codAdm){
+
+    $ListarEsp = callAPI('GET', $_SESSION['api_citas_url'].'administradoras/listar/'.$codAdm, '','application/json; charset=utf-8','');
+    $response = json_decode($ListarEsp, true);
+    
     if ($response['Estado'] == '200') {
         
         echo json_encode($response);
