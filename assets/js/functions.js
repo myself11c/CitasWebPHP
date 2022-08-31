@@ -332,40 +332,6 @@ swal.fire({
       }
       objJson.sRegimen = tipo_usuario;
       objJson.scodAdm = cod_adm;
-      //Consulta CodAdm
-      $.ajax(
-        {
-            type: "GET",
-            url: 'custom/full_oper.php?codAdm='+cod_adm+'&opcion=ListarAdministradoras',
-            //data: (objJson),
-            //headers: ajax_headers,
-            contentType: "application/json; charset=utf-8",
-            //dataType: "json",
-            crossDomain: true,
-            cache: false,
-           success: function (data) {
-               var data=JSON.parse(data);
-             var estado= data.Estado;
-             var mensaje = data.Mensaje;
-             //console.log(data);
-             if (estado =='200'){
-              //alert(JSON.stringify(data.ListaAdministradoras[0].Codigo));
-              idAdministradora = data.ListaAdministradoras[0].Codigo;
-              //return idAdministradora;
-              console.log('Fin idAdm : '+ idAdministradora);
-
-             }
-             if (estado =='500'){
-               return mensaje;
-             }         
-           },
-           error: function (xmlHttpRequest, textStatus, errorThrown) {
-             alert("error: " + xmlHttpRequest.responseText);
-           }
-        });
-      
-      console.log('Fin idAdm : '+ idAdministradora);
-      console.log("regimen -- ANTES DE INSERTAR"+ objJson.sRegimen);
       objJson.bCitaEspecializada = bCitaEspecialista;
       objJson.sTipoAtencion = TipoAtencion;
       objJson.sIdAdministradora = idAdministradora;
