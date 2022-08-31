@@ -15,8 +15,8 @@ $_SESSION['rights_api_url'] ='https://validador-derechos.mutualser.com/validateR
 $_SESSION['token_rights_api_url'] ='https://gcp-mutualser-keycloak-prod.appspot.com/auth/realms/right-validation/protocol/openid-connect/token';
 */
 if(!isset($IdEmpresa)){
-//$IdEmpresa='6136741c4cf579ece936db68';//Caminos
-$IdEmpresa='5cac12055d717e661ea7b95b';//UCC
+$IdEmpresa='6136741c4cf579ece936db68';//Caminos
+//$IdEmpresa='5cac12055d717e661ea7b95b';//UCC
 
 
 }

@@ -11,13 +11,15 @@ foreach($_GET as $nombre_campo => $valor){
    echo  eval($asignacion);
 
 }
-if(!isset($IdEmpresa)){
+if(isset($IdEmpresa)){
     $IdEmpresa='6136741c4cf579ece936db68';
+   
 }
-if(!isset($tipoId)){
+
+if(isset($tipoId)){
     $tipoId='CC';
 }
-if(!isset($identificacion)){
+if(isset($identificacion)){
     $identificacion='45544444';
 }
 
@@ -240,7 +242,7 @@ Navbar
                 <input name="iIdPacienteSios" type="hidden" value="" id="iIdPacienteSios">
                 <input name="regimen" type="hidden" value="" id="regimen">
                 <input name="tipo" type="hidden" value="" id="tipo">
-                <input name="IdEmpresa" type="hidden" value="<?php echo $IdEmpresa?>" id="IdEmpresa">
+                <input name="IdEmpresa" type="hidden" value="<?php echo $IdEmpresa ?>" id="IdEmpresa">
             </form>
 
         </div>

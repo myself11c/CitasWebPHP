@@ -131,7 +131,7 @@ function callAPI($method, $url, $data, $content_type, $token)
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
     // EXECUTE:
     
-    var_dump($result = curl_exec($curl));
+    $result = curl_exec($curl);
     // Comprueba el código de estado HTTP
     if(curl_errno($curl))
     {
@@ -468,7 +468,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
     $get_data = json_decode($get_data, true);
     //Notify the browser about the type of the file using header function
     header('Content-type: text/javascript');
-    echo json_encode($get_data, JSON_PRETTY_PRINT);die();
+    //echo json_encode($get_data, JSON_PRETTY_PRINT);die();
 
     //Var_dump($get_data['entry'][0]['resource']['managingOrganizationResource']['id']) ;
     if(($get_data['entry'][0]['resource']['id']!='400-04')&&($get_data['entry'][0]['resource']['id']!='500-01')&&($get_data['entry'][0]['resource']['id']!='400-03')&&($get_data['entry'][0]['resource']['id']!='500')){
@@ -592,7 +592,7 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
         echo json_encode($res);//CAMBIO
 
     }else{
-        var_dump($get_data);die();
+        //var_dump($get_data);die();
         $data_array = (
         array(
             "estado" => $get_data['entry'][0]['resource']['id'],
