@@ -11,17 +11,17 @@ foreach($_GET as $nombre_campo => $valor){
    echo  eval($asignacion);
 
 }
-if(isset($IdEmpresa)){
-    $IdEmpresa='6136741c4cf579ece936db68';
+// if(isset($IdEmpresa)){
+//     $IdEmpresa='6136741c4cf579ece936db68';6136741c4cf579ece936db68
    
-}
+// }
 
-if(isset($tipoId)){
-    $tipoId='CC';
-}
-if(isset($identificacion)){
-    $identificacion='45544444';
-}
+// if(isset($tipoId)){
+//     $tipoId='CC';
+// }
+// if(isset($identificacion)){
+//     $identificacion='45544444';
+// }
 
 ?>
 <!DOCTYPE html>
