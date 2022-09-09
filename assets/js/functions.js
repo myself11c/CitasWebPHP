@@ -245,7 +245,7 @@ function consultaridAdm(codAdministradora){
   $.ajax(
     {
         type: "GET",
-        url: 'custom/full_oper.php?codAdm='+codAdministradora+'&opcion=ListarAdministradoras',
+        url: 'custom/full_oper.php?codAdm='+codAdministradora+'&IdEmpresa='+IdEmpresa+'&opcion=ListarAdministradoras',
         //data: (objJson),
         //headers: ajax_headers,
         contentType: "application/json; charset=utf-8",
@@ -260,6 +260,7 @@ function consultaridAdm(codAdministradora){
          if (estado =='200'){
           //alert(JSON.stringify(data.ListaAdministradoras[0].Codigo));
           idAdministradora = data.ListaAdministradoras[0].Codigo;
+          console.log('Administradora:', idAdministradora);
           return idAdministradora;
          }
          if (estado =='500'){
