@@ -1,37 +1,17 @@
 <?php
-/*
-$_SESSION['api_citas_url'] ='http://190.242.54.244:8023/apicitas/';
 
-$_SESSION['nit']='900592759';
-
-$_SESSION['usuario_mutual']='sios-hdsalud';
-
-$_SESSION['contraseña_mutual']='Hju8Ghj7Yhn0';
-
-$_SESSION['autorization_api_sios'] ='Y2FtaW5vc2lwczpCaHU4TmppOU1rbzA=';
-
-$_SESSION['rights_api_url'] ='https://validador-derechos.mutualser.com/validateRights/';
-
-$_SESSION['token_rights_api_url'] ='https://gcp-mutualser-keycloak-prod.appspot.com/auth/realms/right-validation/protocol/openid-connect/token';
-*/
 if(!isset($IdEmpresa)){
-$IdEmpresa='6136741c4cf579ece936db68';//Caminos
-//$IdEmpresa='5cac12055d717e661ea7b95b';//UCC
-
+$IdEmpresa='';//
 
 }
 
-$data=callAPI_DataOf('GET','http://apioficinavirtualreactjsdev-env.eba-e52atg8q.us-west-2.elasticbeanstalk.com/empresas/IdEmpresa/'.$IdEmpresa, '','application/json; charset=utf-8;text','');
+$data=callAPI_DataOf('GET','url'.$IdEmpresa, '','application/json; charset=utf-8;text','');
 
-//$get_data = callAPI-DataOf('POST', $_SESSION['rights_api_url'], json_encode($data_array),'application/json', $token);
+
 
 $data = json_decode($data, true);
     //Notify the browser about the type of the file using header function
-header('Content-type: text/javascript');
 
-//var_dump($data); //$data['objConexiones'];
-//var_dump($data['empresas'][0]['objConexiones']);
-//echo json_encode($data['empresas'][0]['ImgBanner']['Ruta'], JSON_PRETTY_PRINT);
 
 
 
@@ -87,7 +67,7 @@ function callAPI_DataOf($method, $url, $data, $content_type, $token)
         ));
     }else if($content_type=='application/json; charset=utf-8'){
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Authorization: Basic "aGVlZHNhbHVkOkJodThOamk5TWtvMA=="',
+            'Authorization: Basic ""',
             'Content-Type:'. $content_type,
         ));
     }else{
