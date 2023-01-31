@@ -1,10 +1,5 @@
 <?php
 ini_set('display_errors', 'Off');
-// header('Access-Control-Allow-Origin: *');
-// header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
-// header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-// header("Allow: GET, POST, OPTIONS, PUT, DELETE");
-
 
 foreach($_POST as $nombre_campo => $valor){
      $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
@@ -178,15 +173,7 @@ function BuscarPacientesSIOS($id,$tipo_id)//Busca paciente por cedula con tipo d
     
 
     if ($response['Estado'] == '200') {
-        /*$data = $response['Paciente']['PrimerNombre'] .  ' ' . $response['Paciente']['SegundoNombre'] .  ' ' . $response['Paciente']['PrimerApellido'].  ' ' . $response['Paciente']['SegundoApellido'];
-        $id_pacienteSios = $response['Paciente']['IdPaciente'];
-        $array_pac_sios = array(
-            "Estado" => $response['Estado'],
-            "id_paciente" => $id_pacienteSios,
-            "nombre"  => $data,
-            "Mensaje" => $response['Mensaje'],
-        );*/
-        //var_dump($array_pac_sios);
+        
         echo json_encode($response);
 
 
@@ -215,7 +202,7 @@ function ListarTurnosPrestadores( $sCodigoEspecialidad,  $id_pacienteSios, $sIdS
         "iTope" => "20",
         "bCitaEspecialista" => $especialista,
     );
-    //var_dump($data_array);
+    
 
     $get_data = callAPI('POST', $_SESSION['api_citas_url'].'turnosprestadores/buscarporespecialidad', json_encode($data_array),'application/json; charset=utf-8','');
 
@@ -229,8 +216,7 @@ function ListarTurnosPrestadores( $sCodigoEspecialidad,  $id_pacienteSios, $sIdS
 
 }
 function BuscarTurnosPorFecha($sFecha,$sCodigoEspecialidad, $sIdSede, $sIdPrestador){
-    //function BuscarTurnosPorFecha($sCodigoEspecialidad, $sIdSede, $sFecha, $sIdPrestador, $jornada='PM'){
-    //$sCodigoEspecialidad='57'; $sIdSede='13'; $sFecha='20210129'; $sIdPrestador='073571746';$jornada='PM';
+    
 
     $data_array =  array(
         "sCodigoEspecialidad"   => $sCodigoEspecialidad,
@@ -248,9 +234,7 @@ function BuscarTurnosPorFecha($sFecha,$sCodigoEspecialidad, $sIdSede, $sIdPresta
         echo json_encode($response) ;
     }else{
         echo json_encode($response) ;
-        /* $agi->exec("AGI", "googletts.agi,\" Sr Usuario se produjo un error \",es,#,1.28");
-        $agi->exec("AGI", "googletts.agi,\" Lo estamos transfiriendo a un asesor  \",es,#,1.28");
-        $agi->verbose("Error  $response['Estado'] - $response['Mensaje']"); */
+       
     }
 
 
@@ -416,13 +400,13 @@ function getToken(){
     $data_array = http_build_query(
         array(
         "grant_type" => 'password',
-        "client_secret" => '6447603b-4a47-4b9a-925c-96c6025f1a9f',
-        "client_id" => 'right-validation',
-        "username" => 'sios-hdsalud',
-        "password" => 'Hju8Ghj7Yhn0'
+        "client_secret" => '',
+        "client_id" => 'right',
+        "username" => '',
+        "password" => ''
         )
     );
-    $get_data = callAPI('POST', 'https://gcp-mutualser-keycloak-prod.appspot.com/auth/realms/right-validation/protocol/openid-connect/token', $data_array,'application/x-www-form-urlencoded','');
+    $get_data = callAPI('POST', 'url', $data_array,'application/x-www-form-urlencoded','');
     $response = json_decode($get_data, true);
     //var_dump($response) ;die();
     $token=$response["access_token"];
@@ -445,19 +429,9 @@ function getRight($sNumeroIdentificacion,$sTipoIdentificacion){
             array(
                 "name" => 'documentId',
                 "valueString" => $sNumeroIdentificacion,
-                //"valueString" => '1128060255',
-                //"valueString" => '45544444',
-                //"valueString" => '                                                                                                                                                ',
-                //"valueString" => '1044627275',
+                
             ),
-            /*array(
-                "name" => 'idIPS',
-                "valueString" => '901111348',
-            ),
-            array(
-                "name" => 'cupsCode',
-                "valueString" => '890301',
-            )*/
+            
         )
     )
     );
